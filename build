@@ -16,8 +16,8 @@ echo "#!/usr/bin/env node" > ./bin/build.js
 chmod 755 ./bin/build.js
 
 echo "copy dist to web ..."
-rm -rf web/static/assets/lib/@plotdb/xfl/dev/
-mkdir -p web/static/assets/lib/@plotdb/xfl/dev/
-cp -R dist/* web/static/assets/lib/@plotdb/xfl/dev/
+rm -rf web/static/assets/lib/@xlfont/load/dev/
+mkdir -p web/static/assets/lib/@xlfont/load/dev/
+cp -R dist/* web/static/assets/lib/@xlfont/load/dev/
 
 echo "done."

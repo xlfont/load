@@ -1,7 +1,5 @@
 doctype html
 include @/bootstrap.ldui/dist/index.pug
-//- var fontlist = ["851手書き雑フォント","中楷體","瀨戶字体","花園明朝","中仿宋體","刻石錄明體","站酷快乐体2016修订版","衡山毛筆","中圓體","刻石錄鋼筆鶴體","站酷高端黑体修订2015","中明體","刻石錄顏體","粗黑體","王漢宗中魏碑簡體","王漢宗仿宋體","王漢宗粗鋼體","王漢宗粗黑體實陰","王漢宗標楷體空心","王漢宗正海報","王漢宗細新宋簡體","王漢宗中明注音體","王漢宗波卡體空陰","王漢宗細明","王漢宗中明破音字1","王漢宗波浪體","王漢宗細黑","王漢宗中明破音字2","王漢宗海報體半天水","王漢宗中明破音字3","王漢宗中楷注音體","王漢宗超明","王漢宗中楷破音字1","王漢宗超黑俏皮動物","王漢宗中楷破音字2","王漢宗特黑","王漢宗酷儷海報","王漢宗中楷破音字3","王漢宗鋼筆行楷","王漢宗粗圓體雙空","王漢宗顏體"];
-//-- var featurefonts = ["瀨戶字体", "衡山毛筆", "王漢宗粗鋼體", "王漢宗綜藝體", "王漢宗波浪體"];
 -
   var fontlist = [
     ["Fontworks"],
@@ -72,13 +70,13 @@ html
   head
     meta(charset="utf-8")
     meta(property="og:locale",content="zh_TW")
-    meta(property="og:image",content="http://plotdb.github.io/xfl/assets/img/thumbnail.png")
+    meta(property="og:image",content="http://xlfont.github.io/load/assets/img/thumbnail.png")
     meta(property="og:image:type",content="image/png")
     meta(property="og:image:width",content="1200")
     meta(property="og:image:height",content="630")
     meta(property="og:title",content="XL Font Load / 大尺寸字型載入器")
     meta(property="og:type",content="article")
-    meta(property="og:url",content="http://plotdb.github.io/xfl/")
+    meta(property="og:url",content="http://xlfont.github.io/load/")
     meta(property="og:description",content="這個專案實作了一個快速中文字型載入模組，將字型檔依字頻切成小塊，再根據網頁內容選擇需要載入的字型子集")
     meta(property="article:author",content="zbryikt")
     meta(property="article:section",content="Taiwan")
@@ -142,7 +140,7 @@ html
     +nbr(2)
     h2 這是什麼？
     p 中文字型向來動輒數MB 甚至數十MB，若要做為網路字型使用往往很卡。其它解決方案大多是商業付費服務，而且針對動態內容，要嘛做不好，亦或成本很高。
-    p 針對這個問題，#[span.text-danger X]L #[span.text-danger F]ont #[span.text-danger L]oad = #[code @plotdb/xfl] 實作了：
+    p 針對這個問題，#[span.text-danger X]L #[span.text-danger F]ont #[span.text-danger L]oad = #[code @xlfont/load] 實作了：
     ul
       li 中文字型切割工具
       li 中文字型載入模組
@@ -166,7 +164,7 @@ html
     p 此專案託管於 #[a(href="https://github.com/plotdb/xfl") Github 專案庫] ，你可以造訪該網址並利用 Git 分支，或者直接下載整包模組。
     p 你亦可使用 #[code npm]：
     pre.code.
-      npm install --save @plotdb/xfl
+      npm install --save @xlfont/load
       npx xfl -o [out-dir] [font-dir] # 字型切割工具
     p 前端字型載入器則引入 #[code dist/xfl.js] 後使用：
     pre.code.
@@ -185,7 +183,7 @@ html
     ul
       li 自有字型
       li 網頁字型服務
-    p 自有字型不用說，大部份字型服務提供者的商業核心還是在其高品質的自有字型，這是字型工具無法提供的。而在網頁字型服務這點，因為 #[code @plotdb/xfl] 套件缺乏動態後端組字機制，嚴格來說也無法取代動態生成式的網路字型服務。況且，一旦牽涉到後端組字，就算是自幹也會有主機跟流量的成本，因此除非有大量需求來攤平成本，否則使用這類服務的性價比一般還是會比自幹高。
+    p 自有字型不用說，大部份字型服務提供者的商業核心還是在其高品質的自有字型，這是字型工具無法提供的。而在網頁字型服務這點，因為 #[code @xlfont/load] 套件缺乏動態後端組字機制，嚴格來說也無法取代動態生成式的網路字型服務。況且，一旦牽涉到後端組字，就算是自幹也會有主機跟流量的成本，因此除非有大量需求來攤平成本，否則使用這類服務的性價比一般還是會比自幹高。
     p 什麼時候會有大量需求的情境？比方說，若我們開發用戶可以自選字型的網頁編輯工具，用戶的每一個 keystroke 都可能導致一次 API Call ，但網頁字型服務往往就是以 API 呼叫次數做計費基準，我們又不太可能限制用戶打字的次數，這種情境下使用以次計價的服務就顯得不太實際。
     p 此外靜態字型子集較動態生成的字型檔來說在快取上較有優勢。若預期字型檔不會頻繁更新，可以設定較長的快取週期，並可搭配 Cloudflare 等 CDN 服務，可以獲得更快速的內容發送以及更少的流量負擔。
     br
@@ -204,5 +202,5 @@ html
     +script("assets/lib/ldloader/main/ldld.min.js")
     +script("assets/lib/proxise/main/proxise.min.js")
     +script("assets/lib/@plotdb/opentype.js/main/opentype.js")
-    +script("assets/lib/@plotdb/xfl/dev/xfl.js")
+    +script("assets/lib/@xlfont/load/dev/xfl.js")
     +script("js/index.js")

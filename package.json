@@ -1,17 +1,17 @@
 {
   "author": "zbryikt",
-  "name": "@plotdb/xfl",
+  "name": "@xlfont/load",
   "license": "MIT",
   "description": "XL font generator and loader",
   "version": "1.0.0",
   "main": "dist/xfl.js",
-  "homepage": "https://github.com/plotdb/xfl",
+  "homepage": "https://github.com/xlfont/load",
   "files": [
     "dist/**/*"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/plotdb/xfl"
+    "url": "https://github.com/xlfont/load"
   },
   "engines": {
     "node": ">=10.14.1",

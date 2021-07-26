@@ -1,4 +1,4 @@
-# @plotdb/xfl
+# @xlfont/load
 
 `X`L-`F`ont `L`oader - Subset font loader / generator, mainly for supporting fonts with big file sizes, such as CJK fonts. Features:
 
@@ -12,7 +12,7 @@
 
 This is a javascript project based on nodeJS / npm. After installing node / npm, install with following:
 
-    npm install --save @plotdb/xfl
+    npm install --save @xlfont/load
 
 
 ## xl-font subsetting generator
@@ -45,11 +45,11 @@ Generally speaking, the steps of font subsetting by `xfl` are as following:
 
  - join all unicodes from glyphs available in fonts and the codes listed in word frequency files
  - sort above unicode list based on word frequency information.
- - create the major subset ( 1.ttf ), containing <major-subset-size> glyphs.
+ - create the major subset ( 1.ttf ), containing `major-subset-size` glyphs.
    - punctuation ( 0xff00 ~ 0xffef )
    - ascii characters ( 0x00 ~ 0xff )
    - the most commonly used codes, by word frequency information.
- - create subsets based on the remaining codes, each contains <subset-size> glyphs.
+ - create subsets based on the remaining codes, each contains `subset-size` glyphs.
  - font subsets are named after set index, start from 1. Includes ttf, woff and woff2 format.
  - dump unicode / subset mapping to `charmap.txt`. also keep the original font as `all.ttf`.
 
@@ -89,9 +89,9 @@ Font object API:
 
 ## availabel xl-fonts
 
-While this is a tool for composing and using xl-font, we also prepare a set of xl-fonts so you can use them directly with `xfl.js`. All fonts are released under `SIL-Open Font License 1.1` or similar open licenses.
+While this is a tool for composing and using xl-font, we also prepare a set of xl-fonts so you can use them directly with `xfl.js`. All fonts are released under `SIL-Open Font License 1.1` or similar open licenses. Checkout the following repo for more information:
 
-    https://plotdb.com/xl-fonts
+    https://github.com/xlfont/cjk/
 
 
 

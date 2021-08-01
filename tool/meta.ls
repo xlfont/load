@@ -19,6 +19,7 @@ file = argv._.0
 all = argv.a
 
 multiline = (txt = "", len = 18) ->
+  txt = txt.replace /\n/g, ' '
   ret = []
   while txt.length > 64
     ret.push txt.substring(0,64)

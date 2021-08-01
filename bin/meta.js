@@ -24,6 +24,7 @@
     var ret;
     txt == null && (txt = "");
     len == null && (len = 18);
+    txt = txt.replace(/\n/g, ' ');
     ret = [];
     while (txt.length > 64) {
       ret.push(txt.substring(0, 64));

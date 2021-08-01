@@ -1,5 +1,10 @@
 # Change Logs
 
+## v1.0.4
+
+ - handle newlines in metadata
+
+
 ## v1.0.3
 
  - support subsetting only single font in xfl command

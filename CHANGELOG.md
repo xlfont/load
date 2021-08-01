@@ -1,5 +1,10 @@
 # Change Logs
 
+## v1.0.5
+
+ - skip notdef by reference instead of by name. This fixed `Taipei Sans TC Beta` generation issue.
+
+
 ## v1.0.4
 
  - handle newlines in metadata

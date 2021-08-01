@@ -99,7 +99,9 @@ iterate-codes = (data) -> new Promise (res, rej) ->
   notdef = font.glyphs.get(0)
   notdef.name = '.notdef'
   for k,glyph of font.glyphs.glyphs =>
-    if glyph.name == '.notdef' => continue
+    # don't use glyph.name to check if it's notdef since it's not reliable
+    # e.g., glyph names are all '.notdef' `Taipei Sans TC Beta`.
+    if glyph == notdef => continue
     unicodes = Array.from(new Set(([glyph.unicode] ++ (glyph.unicodes or [])).filter(->it)))
     # or 1: all glyphs without unicode go to set 1.
     unicodes.map (uc) ->
@@ -114,7 +116,6 @@ iterate-codes = (data) -> new Promise (res, rej) ->
       v = hash[it.unicode] = (hash[it.unicode] or 0) + 1
       return v < 2
     item.codes = item.glyphs.map(-> it.unicode).filter(->it)
-
   data.bar = bar = progress-bar(list.length + 1, "subsetting")
   bar.tick!
   fs-extra.ensure-dir-sync path.join(out-dir, data.basename)

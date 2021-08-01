@@ -161,7 +161,7 @@
       notdef.name = '.notdef';
       for (k in ref$ = font.glyphs.glyphs) {
         glyph = ref$[k];
-        if (glyph.name === '.notdef') {
+        if (glyph === notdef) {
           continue;
         }
         unicodes = Array.from(new Set(([glyph.unicode].concat(glyph.unicodes || [])).filter(fn$)));

@@ -1,6 +1,6 @@
 # Change Logs
 
-## v1.0.0 (upcoming)
+## v1.0.0
 
  - completely rewrite xfl.ls
  - support font merging based on opentype.js

@@ -111,7 +111,9 @@ While this is a tool for composing and using xl-font, we also prepare a set of x
  - Google Font also use similar technologies to load chinese font. see:
    - https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/webfont-optimization
    - sample CSS: https://fonts.googleapis.com/css?family=Zhi-Mang-Xing&display=swap
-
+ - `unicode-ranges.json`
+   - parsed from content of `https://www.ling.upenn.edu/courses/Spring_2003/ling538/UnicodeRanges.html`
+   - content of the above link is from `http://www.unicode.org/charts/`
 
 ## LICENSE
 

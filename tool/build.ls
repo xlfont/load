@@ -1,4 +1,4 @@
-require! <[fs fs-extra @plotdb/opentype.js yargs path colors progress ttf2woff2 ttf2woff]>
+require! <[fs path fs-extra @plotdb/opentype.js yargs path colors progress ttf2woff2 ttf2woff]>
 
 argv = yargs
   .usage "usage: npx xfl font-dir [-o output-dir] [-c major-subset-size] [-s subset-size]"

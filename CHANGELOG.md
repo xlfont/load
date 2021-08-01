@@ -1,5 +1,12 @@
 # Change Logs
 
+## v1.0.2
+
+ - add `xfl-meta` command
+ - add missing dependency in `build.js`
+ - update `package.json` for some dependencies that should be for production
+
+
 ## v1.0.1
 
  - remove npm-shrinkwrap.json

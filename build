@@ -14,6 +14,10 @@ echo "building build.ls -> bin/build.js ..."
 echo "#!/usr/bin/env node" > ./bin/build.js
 ./node_modules/.bin/lsc -cp --no-header tool/build.ls >> bin/build.js
 chmod 755 ./bin/build.js
+echo "building meta.ls -> bin/meta.js ..."
+echo "#!/usr/bin/env node" > ./bin/meta.js
+./node_modules/.bin/lsc -cp --no-header tool/meta.ls >> bin/meta.js
+chmod 755 ./bin/meta.js
 
 echo "copy dist to web ..."
 rm -rf web/static/assets/lib/@xlfont/load/dev/

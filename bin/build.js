@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 (function(){
-  var fs, fsExtra, opentype, yargs, path, colors, progress, ttf2woff2, ttf2woff, argv, libdir, commonRanges, commonSize, setSize, fontDir, outDir, defaultFrequencyFile, progressBar, fontFileFinder, wordFrequency, codeInFont, files, wordlist, wordfreq, iterateCodes, ttfToWoff2s, processFont, processFonts;
+  var fs, path, fsExtra, opentype, yargs, colors, progress, ttf2woff2, ttf2woff, argv, libdir, commonRanges, commonSize, setSize, fontDir, outDir, defaultFrequencyFile, progressBar, fontFileFinder, wordFrequency, codeInFont, files, wordlist, wordfreq, iterateCodes, ttfToWoff2s, processFont, processFonts;
   fs = require('fs');
+  path = require('path');
   fsExtra = require('fs-extra');
   opentype = require('@plotdb/opentype.js');
   yargs = require('yargs');

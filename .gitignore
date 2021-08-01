@@ -1,5 +1,7 @@
-node_modules
 .*.swp
-fonts
-output
-old
+.swp
+node_modules
+*.log
+secret.*
+web/static/assets/fonts
+xlfont

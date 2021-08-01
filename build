@@ -1,10 +1,23 @@
 #!/usr/bin/env bash
+
+echo "prepare..."
+rm -rf dist
 mkdir -p dist
-echo "build src/xfl.ls -> dist/xfl.js ..."
-./node_modules/.bin/lsc -cbp src/xfl.ls > dist/xfl.js
-echo "minifying xfl.js ..."
+rm -rf bin
+mkdir -p bin
+
+echo "building src/xfl.ls -> dist/xfl.js ..."
+./node_modules/.bin/lsc -cp --no-header src/xfl.ls > dist/xfl.js
+echo "minify dist/xfl.js -> dist/xfl.min.js ..."
 ./node_modules/.bin/uglifyjs dist/xfl.js > dist/xfl.min.js
-echo "deploy into local web ..."
-mkdir -p web/static/assets/lib/
-cp -R dist/* web/static/assets/lib/
+echo "building build.ls -> bin/build.js ..."
+echo "#!/usr/bin/env node" > ./bin/build.js
+./node_modules/.bin/lsc -cp --no-header tool/build.ls >> bin/build.js
+chmod 755 ./bin/build.js
+
+echo "copy dist to web ..."
+rm -rf web/static/assets/lib/@xlfont/load/dev/
+mkdir -p web/static/assets/lib/@xlfont/load/dev/
+cp -R dist/* web/static/assets/lib/@xlfont/load/dev/
+
 echo "done."

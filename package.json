@@ -1,38 +1,72 @@
 {
   "author": "zbryikt",
-  "name": "@plotdb/xfl",
+  "name": "@xlfont/load",
   "license": "MIT",
-  "description": "make quick and dynamic CJK web font",
-  "version": "0.0.1",
-  "homepage": "https://github.com/plotdb/xl-fontload",
+  "description": "XL font generator and loader",
+  "version": "1.0.0",
+  "main": "dist/xfl.js",
+  "homepage": "https://github.com/xlfont/load",
   "files": [
     "dist/**/*"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/plotdb/xl-fontload"
+    "url": "https://github.com/xlfont/load"
   },
   "engines": {
-    "node": ">=8.5.0",
-    "npm": ">=5.3.0"
+    "node": ">=10.14.1",
+    "npm": ">=6.4.1"
   },
   "scripts": {
-    "start": "cd web; ../node_modules/.bin/lsc ../node_modules/template/server.ls",
-    "build": "cd tool; ../node_modules/.bin/lsc ./build.ls"
+    "start": "npx server -r web -o true"
   },
-  "dependencies": {
-    "LiveScript": ">=1.2.0",
+  "bin": {
+    "xfl": "./bin/build.js"
+  },
+  "devDependencies": {
+    "@loadingio/debounce.js": "0.0.1",
+    "@loadingio/ldquery": "^2.0.0",
+    "@loadingio/loading.css": "^2.0.1",
+    "bootstrap": "^4.5.3",
+    "bootstrap.ldui": "github:loadingio/bootstrap.ldui",
+    "bootstrap.native": "^3.0.13",
+    "colors": "^1.4.0",
+    "fedep": "^0.0.12",
+    "fs-extra": "^9.1.0",
+    "ldbutton": "^1.0.2",
+    "ldcover": "^1.3.2",
+    "ldloader": "^1.2.1",
+    "ldview": "^0.2.0",
+    "livescript": "^1.6.0",
+    "@plotdb/opentype.js": "^1.3.4",
+    "progress": "^2.0.3",
     "stylus": "^0.54.5",
-    "uglify-js": "=3.2.0",
-    "uglifycss": "0.0.29",
-    "colors": "=1.1.2",
-    "fontmin": "=0.9.7-beta",
-    "fs-extra": "^6.0.1",
-    "gulp-rename": "=1.3.0",
-    "hoek": "^4.2.1",
-    "opentype.js": "=0.8.0",
-    "progress": "=2.0.0",
-    "ttf2woff2": "^2.0.3",
-    "template": "github:zbryikt/template#v2"
+    "template": "github:zbryikt/template#v2.3.13",
+    "ttf2woff": "^2.0.2",
+    "ttf2woff2": "^4.0.0",
+    "uglify-js": "^3.2.0",
+    "uglifycss": "^0.0.29",
+    "yargs": "^16.2.0"
+  },
+  "peerDependencies": {
+    "@plotdb/opentype.js": "^1.3.4",
+    "proxise": "^0.1.2"
+  },
+  "frontendDependencies": {
+    "root": "web/static/assets/lib",
+    "modules": [
+      "bootstrap",
+      "bootstrap.ldui",
+      "bootstrap.native",
+      "@loadingio/ldquery",
+      "@loadingio/debounce.js",
+      "@loadingio/loading.css",
+      "@plotdb/opentype.js",
+      "ldview",
+      "ldcover",
+      "ldloader",
+      "ldbutton",
+      "proxise"
+    ]
   }
 }

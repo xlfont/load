@@ -1,6 +1,11 @@
 # Change Logs
 
-## v1.0.5
+## v1.0.7
+
+ - fix incorrect versioning issue
+
+
+## v1.0.5 / v1.0.6
 
  - skip notdef by reference instead of by name. This fixed `Taipei Sans TC Beta` generation issue.
 

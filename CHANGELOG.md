@@ -1,5 +1,11 @@
 # Change Logs
 
+## v1.0.3
+
+ - support subsetting only single font in xfl command
+ - better formatting of xfl-meta output
+
+
 ## v1.0.2
 
  - add `xfl-meta` command

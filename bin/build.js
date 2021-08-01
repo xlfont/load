@@ -57,9 +57,13 @@
   };
   fontFileFinder = function(parent){
     var files, ret, i$, len$, file;
-    files = fs.readdirSync(parent).map(function(it){
-      return parent + "/" + it;
-    });
+    if (!fs.statSync(parent).isDirectory()) {
+      files = [parent];
+    } else {
+      files = fs.readdirSync(parent).map(function(it){
+        return parent + "/" + it;
+      });
+    }
     ret = [];
     for (i$ = 0, len$ = files.length; i$ < len$; ++i$) {
       file = files[i$];

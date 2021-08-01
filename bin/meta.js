@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 (function(){
-  var fs, path, yargs, opentype, lib, allRanges, argv, file, all;
+  var fs, path, colors, yargs, opentype, lib, allRanges, argv, file, all, multiline;
   fs = require('fs');
   path = require('path');
+  colors = require('colors');
   yargs = require('yargs');
   opentype = require('@plotdb/opentype.js');
   lib = path.dirname(fs.realpathSync(__filename));
@@ -19,12 +20,27 @@
   }).argv;
   file = argv._[0];
   all = argv.a;
+  multiline = function(txt, len){
+    var ret;
+    txt == null && (txt = "");
+    len == null && (len = 18);
+    ret = [];
+    while (txt.length > 64) {
+      ret.push(txt.substring(0, 64));
+      txt = txt.substring(64);
+    }
+    ret.push(txt);
+    return ret.map(function(d, i){
+      return (i ? "".padStart(len) : "") + d;
+    }).join('\n');
+  };
   opentype.load(file).then(function(it){
-    var unicodes, k, ref$, v, ranges, rangeSize, rangeCodes, res$, len, i$, i, range;
+    var unicodes, k, ref$, v, lng, txt, ranges, rangeSize, rangeCodes, res$, len, i$, i, range;
     unicodes = [];
     for (k in ref$ = it.names || {}) {
       v = ref$[k];
-      console.log((k + ": ").padStart(18), v);
+      v = v || {};
+      (fn$()).map(fn1$);
     }
     for (k in ref$ = it.glyphs.glyphs) {
       v = ref$[k];
@@ -68,10 +84,23 @@
     for (i$ = 0; i$ < len; ++i$) {
       i = i$;
       range = rangeCodes[i];
-      console.log(("   - " + range[0] + ": ").padEnd(47), (range[1] + "").padStart(5), "(", (range[2] + "%)").padStart(7));
+      console.log(("   - " + range[0] + ": ").padEnd(47), (range[1] + "").padStart(5).yellow, "(", (range[2] + "%").padStart(7).yellow, ")");
     }
     if (len < rangeCodes.length) {
-      return console.log("     ( " + rangeCodes.length + " other ranges omitted. )");
+      return console.log("     ( ", (rangeCodes.length + "").yellow, " other ranges omitted. )");
+    }
+    function fn$(){
+      var ref$, results$ = [];
+      for (lng in ref$ = v) {
+        txt = ref$[lng];
+        results$.push([lng, txt]);
+      }
+      return results$;
+    }
+    function fn1$(d, i){
+      var lng, txt;
+      lng = d[0], txt = d[1];
+      return console.log((!i ? k + ": " : "").padStart(18), ("(" + lng + ")").padEnd(7).yellow, multiline(txt + "", 19 + ("(" + lng + ")").padEnd(7).length).green);
     }
   });
 }).call(this);

@@ -45,7 +45,8 @@ progress-bar = (total = 10, text = "converting") ->
   return bar
 
 font-file-finder = (parent) ->
-  files = fs.readdir-sync parent .map -> "#parent/#it"
+  if !(fs.stat-sync parent .is-directory!) => files = [parent]
+  else files = fs.readdir-sync parent .map -> "#parent/#it"
   ret = []
   for file in files =>
     if fs.stat-sync file .is-directory! => ret = ret ++ font-file-finder(file)

@@ -1,4 +1,4 @@
-require! <[fs path yargs @plotdb/opentype.js]>
+require! <[fs path colors yargs @plotdb/opentype.js]>
 
 lib = path.dirname fs.realpathSync __filename
 all-ranges = JSON.parse( fs.read-file-sync path.join(lib, '..', 'tool', 'data', 'unicode-ranges.json') .toString! )
@@ -18,10 +18,29 @@ argv = yargs
 file = argv._.0
 all = argv.a
 
+multiline = (txt = "", len = 18) ->
+  ret = []
+  while txt.length > 64
+    ret.push txt.substring(0,64)
+    txt = txt.substring(64)
+  ret.push txt
+  return ret
+    .map (d,i) -> (if i => "".padStart(len) else "") + d
+    .join(\\n)
+  
+
 opentype.load file
   .then ->
     unicodes = []
-    for k,v of (it.names or {}) => console.log "#k: ".padStart(18), v
+    for k,v of (it.names or {}) =>
+      v = v or {}
+      [[lng,txt] for lng,txt of v].map (d,i) ->
+        [lng,txt] = d
+        console.log(
+          (if !i => "#k: " else "").padStart(18)
+          "(#lng)".padEnd(7).yellow
+          multiline("#txt", 19 + "(#lng)".padEnd(7).length).green
+        )
     for k,v of it.glyphs.glyphs => unicodes = unicodes ++ v.unicodes ++ [v.unicode]
     unicodes = Array.from(new Set(unicodes.filter -> it))
     ranges = {}
@@ -40,6 +59,11 @@ opentype.load file
     len = if all => range-codes.length else Math.min(range-codes.length, 5)
     for i from 0 til len =>
       range = range-codes[i]
-      console.log "   - #{range.0}: ".padEnd(47), "#{range.1}".padStart(5), "(", "#{range.2}%)".padStart(7)
-    if len < range-codes.length => console.log "     ( #{range-codes.length} other ranges omitted. )"
+      console.log(
+        "   - #{range.0}: ".padEnd(47)
+        "#{range.1}".padStart(5).yellow
+        "(", "#{range.2}%".padStart(7).yellow
+        ")"
+      )
+    if len < range-codes.length => console.log "     ( ", "#{range-codes.length}".yellow, " other ranges omitted. )"
 

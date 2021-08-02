@@ -16,7 +16,7 @@ argv = yargs
   .argv
 
 file = argv._.0
-all = argv.a
+all = (argv.a)?
 
 multiline = (txt = "", len = 18) ->
   txt = txt.replace /\n/g, ' '
@@ -66,5 +66,6 @@ opentype.load file
         "(", "#{range.2}%".padStart(7).yellow
         ")"
       )
-    if len < range-codes.length => console.log "     ( ", "#{range-codes.length}".yellow, " other ranges omitted. )"
+    if len < range-codes.length =>
+      console.log "     ( ", "#{range-codes.length}".yellow, " other ranges omitted. )"
 

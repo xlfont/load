@@ -1,5 +1,10 @@
 # Change Logs
 
+## v1.0.8
+
+ - fix bug: `-a` option doesn't work in `xfl-meta`
+
+
 ## v1.0.7
 
  - fix incorrect versioning issue

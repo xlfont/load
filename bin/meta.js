@@ -19,7 +19,7 @@
     return true;
   }).argv;
   file = argv._[0];
-  all = argv.a;
+  all = argv.a != null;
   multiline = function(txt, len){
     var ret;
     txt == null && (txt = "");

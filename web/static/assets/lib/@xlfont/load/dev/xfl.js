@@ -32,7 +32,7 @@
     if (this.format) {
       this.format = "format('" + this.format + "')";
     }
-    this.className = "xfl-" + this.name + "-" + Math.random().toString(36).substring(2);
+    this.className = "xfl-" + (this.name || '').replace(/\s*/g, '_') + "-" + Math.random().toString(36).substring(2);
     this.isXl = !this.ext;
     this.css = [];
     this.init = proxise.once(function(){
@@ -46,9 +46,10 @@
       var this$ = this;
       return Promise.resolve().then(function(){
         if (!this$.isXl) {
-          return this$.css = [{
-            content: "@font-face {\n  font-family: " + this$.name + ";\n  src: url(" + this$.path + ") " + this$.format + ";\n}\n." + this$.className + " { font-family: \"" + this$.name + "\"; }"
+          this$.css = [{
+            content: "@font-face {\n  font-family: \"" + this$.name + "\";\n  src: url(\"" + this$.path + "\") " + this$.format + ";\n}\n." + this$.className + " { font-family: \"" + this$.name + "\"; }"
           }];
+          return xfl.update();
         } else {
           return new Promise(function(res, rej){
             var xhr;
@@ -188,7 +189,7 @@
         }
         for (i$ = 0, len$ = subfonts.length; i$ < len$; ++i$) {
           f = subfonts[i$];
-          css += "@font-face {\n  font-family: " + this$.name + ";\n  src: url(" + f.url + ") format('" + f.type + "');\n}";
+          css += "@font-face {\n  font-family: \"" + this$.name + "\";\n  src: url(\"" + f.url + "\") format('" + f.type + "');\n}";
         }
         return this$.css.push({
           content: css
@@ -264,6 +265,7 @@
       var ref$, misschar, missset, this$ = this;
       txt == null && (txt = "");
       if (!this.isXl) {
+        xfl.update();
         return Promise.resolve();
       }
       ref$ = [{}, {}], misschar = ref$[0], missset = ref$[1];
@@ -337,7 +339,7 @@
       }
       function fn1$(it){
         it.rendered = true;
-        return css += it.content;
+        return css = css + it.content;
       }
     },
     _load: function(opt){

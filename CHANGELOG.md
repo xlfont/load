@@ -1,5 +1,13 @@
 # Change Logs
 
+## v1.0.9
+
+ - escape space in font name
+ - quote name and url in font family styles
+ - call update for non-xl fonts
+ - fix incorrectly assignment in xfl.update
+
+
 ## v1.0.8
 
  - fix bug: `-a` option doesn't work in `xfl-meta`

@@ -18,7 +18,7 @@ xfont = (opt = {}) ->
     else that
   else ''
   if @format => @format = "format('#{@format}')"
-  @className = "xfl-#{@name}-#{Math.random!toString(36)substring(2)}"
+  @className = "xfl-#{(@name or '').replace(/\s*/g,'_')}-#{Math.random!toString(36)substring(2)}"
   @is-xl = !@ext
   @css = []
   @init = proxise.once ~> @_init!
@@ -32,10 +32,11 @@ xfont.prototype = Object.create(Object.prototype) <<< do
       if !@is-xl =>
         @css = [{content: """
         @font-face {
-          font-family: #{@name};
-          src: url(#{@path}) #{@format};
+          font-family: "#{@name}";
+          src: url("#{@path}") #{@format};
         }
         .#{@className} { font-family: "#{@name}"; }"""}]
+        xfl.update!
       else return new Promise (res, rej) ~>
         xhr = new XMLHttpRequest!
         xhr.addEventListener \readystatechange, ~>
@@ -94,8 +95,8 @@ xfont.prototype = Object.create(Object.prototype) <<< do
         for k,f of @sub.font =>
         for f in subfonts =>
           css += """@font-face {
-            font-family: #{@name};
-            src: url(#{f.url}) format('#{f.type}');
+            font-family: "#{@name}";
+            src: url("#{f.url}") format('#{f.type}');
           }"""
         @css.push {content: css}
 
@@ -129,7 +130,9 @@ xfont.prototype = Object.create(Object.prototype) <<< do
         return @otf.font
 
   sync: (txt = "") ->
-    if !@is-xl => return Promise.resolve!
+    if !@is-xl =>
+      xfl.update!
+      return Promise.resolve!
     [misschar, missset]= [{}, {}]
     Promise.resolve!
       .then ~>
@@ -165,7 +168,7 @@ xfl = do
         .filter -> !it.rendered
         .map ->
           it.rendered = true
-          css += it.content
+          css := css + it.content
     if css =>
       node = document.createElement("style")
       node.textContent = css

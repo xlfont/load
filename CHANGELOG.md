@@ -1,5 +1,11 @@
 # Change Logs
 
+## v1.0.10
+
+ - escape space in class name
+ - quote name in font family name that didn't quote in the last version
+
+
 ## v1.0.9
 
  - escape space in font name

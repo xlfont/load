@@ -32,7 +32,7 @@
     if (this.format) {
       this.format = "format('" + this.format + "')";
     }
-    this.className = "xfl-" + (this.name || '').replace(/\s*/g, '_') + "-" + Math.random().toString(36).substring(2);
+    this.className = "xfl-" + (this.name || '').replace(/\s+/g, '_') + "-" + Math.random().toString(36).substring(2);
     this.isXl = !this.ext;
     this.css = [];
     this.init = proxise.once(function(){
@@ -183,7 +183,7 @@
         if (!subfonts.length) {
           return;
         }
-        css = "." + this$.className + " { font-family: " + this$.name + "; }";
+        css = "." + this$.className + " { font-family: \"" + this$.name + "\"; }";
         for (k in ref$ = this$.sub.font) {
           f = ref$[k];
         }

@@ -18,7 +18,7 @@ xfont = (opt = {}) ->
     else that
   else ''
   if @format => @format = "format('#{@format}')"
-  @className = "xfl-#{(@name or '').replace(/\s*/g,'_')}-#{Math.random!toString(36)substring(2)}"
+  @className = "xfl-#{(@name or '').replace(/\s+/g,'_')}-#{Math.random!toString(36)substring(2)}"
   @is-xl = !@ext
   @css = []
   @init = proxise.once ~> @_init!
@@ -91,7 +91,7 @@ xfont.prototype = Object.create(Object.prototype) <<< do
     Promise.all ps
       .then (subfonts) ~>
         if !subfonts.length => return
-        css = ".#{@className} { font-family: #{@name}; }"
+        css = """.#{@className} { font-family: "#{@name}"; }"""
         for k,f of @sub.font =>
         for f in subfonts =>
           css += """@font-face {

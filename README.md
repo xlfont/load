@@ -115,6 +115,24 @@ While this is a tool for composing and using xl-font, we also prepare a set of x
    - parsed from content of `https://www.ling.upenn.edu/courses/Spring_2003/ling538/UnicodeRanges.html`
    - content of the above link is from `http://www.unicode.org/charts/`
 
+## Font Subsetting Consideration
+
+According to *[SIL's OFL FAQ](https://scripts.sil.org/cms/scripts/page.php?item_id=OFL-FAQ_web#b4b7db21)* and *[Web Fonts and Reserved Font Names](https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL_web_fonts_and_RFNs#33301a9c)*, Subsetting a font is considered *modification* of that font. This is permitted by *Open Font License (OFL)*, but OFL requires that modified versions must not use RFNs (Reserved Font Names) without separate permission.
+
+However, once FE (Functional Equivalence) is preserved, then it's very likely that the original author would feel that the optimized font is a good and reasonable equivalent, and that the main purposes of the RFN mechanism - avoids collisions, protects authors. minimizes support, encourages derivatives - continue to be met.
+
+An optimized font is considered FE if:
+
+ - Supports the same full character inventory
+ - Provides the same smart font behavior
+ - Presents text with no obvious degradation in visual quality
+ - Preserves original author, project and license metadata
+
+Subsetting is [discussed separated](https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL_web_fonts_and_RFNs#b4599c52) and only `Dynamic Subsetting` and `Dynamic Subsetting with Progressive Client Storage` is considered as possibly FE preserved.
+
+With `@xlfont/load` serving the subsetted font it can possibly be considered `Dynamic Subsetting`, however the subsetted font alone definitely will be in the `pre-subsetting` category.
+
+
 ## LICENSE
 
 MIT License.

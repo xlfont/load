@@ -1,6 +1,14 @@
 err = (e = {}) -> new Error! <<< ({name: \lderror} <<< e)
 
-xfont = (opt = {}) ->
+once = (f, q = []) -> ->
+  if q.s == 2 => return Promise.resolve!
+  else if q.s == 1 => return new Promise (res, rej) -> q.push {res, rej}
+  Promise.resolve(q.s = 1)
+    .then -> f!
+    .then -> q.s = 2; q.splice 0 .map -> it.res!
+    .catch (e) -> q.s = 0; q.splice(0).map(-> it.rej e); Promise.reject(e)
+
+xlfont = (opt = {}) ->
   @opt = opt
   @sub = {set: {}, font: {}}
   @cjk-only = opt.cjk-only or false
@@ -21,11 +29,11 @@ xfont = (opt = {}) ->
   @className = "xfl-#{(@name or '').replace(/\s+/g,'_')}-#{Math.random!toString(36)substring(2)}"
   @is-xl = !@ext
   @css = []
-  @init = proxise.once ~> @_init!
+  @init = once ~> @_init!
   @init!
   @
 
-xfont.prototype = Object.create(Object.prototype) <<< do
+xlfont.prototype = Object.create(Object.prototype) <<< do
   _init: ->
     Promise.resolve!then ~>
       # not xlfont but regular font. load directly.
@@ -183,7 +191,7 @@ xfl = do
     @running[path] = true
     Promise.resolve!
       .then ~>
-        @fonts[path] = fobj = new xfont opt
+        @fonts[path] = fobj = new xlfont opt
         fobj.init!
       .finally ~> @running[path] = false
       .then ~>

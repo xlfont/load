@@ -1,12 +1,41 @@
 (function(){
-  var err, xfont, xfl;
+  var err, once, xlfont, xfl;
   err = function(e){
     e == null && (e = {});
     return import$(new Error(), import$({
       name: 'lderror'
     }, e));
   };
-  xfont = function(opt){
+  once = function(f, q){
+    q == null && (q = []);
+    return function(){
+      if (q.s === 2) {
+        return Promise.resolve();
+      } else if (q.s === 1) {
+        return new Promise(function(res, rej){
+          return q.push({
+            res: res,
+            rej: rej
+          });
+        });
+      }
+      return Promise.resolve(q.s = 1).then(function(){
+        return f();
+      }).then(function(){
+        q.s = 2;
+        return q.splice(0).map(function(it){
+          return it.res();
+        });
+      })['catch'](function(e){
+        q.s = 0;
+        q.splice(0).map(function(it){
+          return it.rej(e);
+        });
+        return Promise.reject(e);
+      });
+    };
+  };
+  xlfont = function(opt){
     var ref$, that, this$ = this;
     opt == null && (opt = {});
     this.opt = opt;
@@ -35,13 +64,13 @@
     this.className = "xfl-" + (this.name || '').replace(/\s+/g, '_') + "-" + Math.random().toString(36).substring(2);
     this.isXl = !this.ext;
     this.css = [];
-    this.init = proxise.once(function(){
+    this.init = once(function(){
       return this$._init();
     });
     this.init();
     return this;
   };
-  xfont.prototype = import$(Object.create(Object.prototype), {
+  xlfont.prototype = import$(Object.create(Object.prototype), {
     _init: function(){
       var this$ = this;
       return Promise.resolve().then(function(){
@@ -352,7 +381,7 @@
       this.running[path] = true;
       return Promise.resolve().then(function(){
         var fobj;
-        this$.fonts[path] = fobj = new xfont(opt);
+        this$.fonts[path] = fobj = new xlfont(opt);
         return fobj.init();
       })['finally'](function(){
         return this$.running[path] = false;

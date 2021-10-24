@@ -6,10 +6,10 @@ mkdir -p dist
 rm -rf bin
 mkdir -p bin
 
-echo "building src/xfl.ls -> dist/xfl.js ..."
-./node_modules/.bin/lsc -cp --no-header src/xfl.ls > dist/xfl.js
-echo "minify dist/xfl.js -> dist/xfl.min.js ..."
-./node_modules/.bin/uglifyjs dist/xfl.js > dist/xfl.min.js
+echo "building src/xfl.ls -> dist/index.js ..."
+./node_modules/.bin/lsc -cp --no-header src/xfl.ls > dist/index.js
+echo "minify dist/index.js -> dist/index.min.js ..."
+./node_modules/.bin/uglifyjs dist/index.js > dist/index.min.js
 echo "building build.ls -> bin/build.js ..."
 echo "#!/usr/bin/env node" > ./bin/build.js
 ./node_modules/.bin/lsc -cp --no-header tool/build.ls >> bin/build.js
@@ -18,6 +18,9 @@ echo "building meta.ls -> bin/meta.js ..."
 echo "#!/usr/bin/env node" > ./bin/meta.js
 ./node_modules/.bin/lsc -cp --no-header tool/meta.ls >> bin/meta.js
 chmod 755 ./bin/meta.js
+# to be remove after 1.1.0
+cp dist/index.js dist/xfl.js
+cp dist/index.min.js dist/xfl.min.js
 
 echo "copy dist to web ..."
 rm -rf web/static/assets/lib/@xlfont/load/dev/

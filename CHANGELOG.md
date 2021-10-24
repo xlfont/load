@@ -1,5 +1,12 @@
 # Change Logs
 
+## v1.0.11
+
+ - remove dependency to proxise by inlining `once` function
+ - rename `xfl.js` while keeping `index.js`, which will be removed in future minor update
+ - rename `xfont` to `xlfont` to reflect package name.
+
+
 ## v1.0.10
 
  - escape space in class name

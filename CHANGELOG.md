@@ -1,5 +1,10 @@
 # Change Logs
 
+## v1.0.12
+
+ - add back proxise since we can't actually remove it for now
+
+
 ## v1.0.11
 
  - remove dependency to proxise by inlining `once` function

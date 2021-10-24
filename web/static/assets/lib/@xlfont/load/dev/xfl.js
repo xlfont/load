@@ -1,39 +1,10 @@
 (function(){
-  var err, once, xlfont, xfl;
+  var err, xlfont, xfl;
   err = function(e){
     e == null && (e = {});
     return import$(new Error(), import$({
       name: 'lderror'
     }, e));
-  };
-  once = function(f, q){
-    q == null && (q = []);
-    return function(){
-      if (q.s === 2) {
-        return Promise.resolve();
-      } else if (q.s === 1) {
-        return new Promise(function(res, rej){
-          return q.push({
-            res: res,
-            rej: rej
-          });
-        });
-      }
-      return Promise.resolve(q.s = 1).then(function(){
-        return f();
-      }).then(function(){
-        q.s = 2;
-        return q.splice(0).map(function(it){
-          return it.res();
-        });
-      })['catch'](function(e){
-        q.s = 0;
-        q.splice(0).map(function(it){
-          return it.rej(e);
-        });
-        return Promise.reject(e);
-      });
-    };
   };
   xlfont = function(opt){
     var ref$, that, this$ = this;
@@ -64,7 +35,7 @@
     this.className = "xfl-" + (this.name || '').replace(/\s+/g, '_') + "-" + Math.random().toString(36).substring(2);
     this.isXl = !this.ext;
     this.css = [];
-    this.init = once(function(){
+    this.init = proxise.once(function(){
       return this$._init();
     });
     this.init();

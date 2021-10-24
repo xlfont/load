@@ -1,13 +1,5 @@
 err = (e = {}) -> new Error! <<< ({name: \lderror} <<< e)
 
-once = (f, q = []) -> ->
-  if q.s == 2 => return Promise.resolve!
-  else if q.s == 1 => return new Promise (res, rej) -> q.push {res, rej}
-  Promise.resolve(q.s = 1)
-    .then -> f!
-    .then -> q.s = 2; q.splice 0 .map -> it.res!
-    .catch (e) -> q.s = 0; q.splice(0).map(-> it.rej e); Promise.reject(e)
-
 xlfont = (opt = {}) ->
   @opt = opt
   @sub = {set: {}, font: {}}
@@ -29,7 +21,7 @@ xlfont = (opt = {}) ->
   @className = "xfl-#{(@name or '').replace(/\s+/g,'_')}-#{Math.random!toString(36)substring(2)}"
   @is-xl = !@ext
   @css = []
-  @init = once ~> @_init!
+  @init = proxise.once ~> @_init!
   @init!
   @
 

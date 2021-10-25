@@ -80,7 +80,7 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
     else @_fetch @sub.font[0], true
   fetch: (list = [], dofetch = false) ->
     if !@is-xl =>
-      if @sub.font[0].blob => return Promise.resolve!
+      if @sub.font.0 and @sub.font.0.blob => return Promise.resolve!
       list = [0]
     # to support dynamic font aggregation, patch this following line
     ps = Array.from new Set(list.map -> it)
@@ -193,7 +193,9 @@ xfl = do
         @proxy[path].reject it
         Promise.reject it
 
-  load: (opt = {}) -> new Promise (res, rej) ~>
+  load: (opt = {}) ->
+    if typeof(opt) == \string => opt = {path: opt}
+    (res, rej) <~ new Promise _
     if !(path = opt.path) => return rej err({id: 400})
     path = path.replace(/\/$/,'')
     if @fonts[path] => return res(that)

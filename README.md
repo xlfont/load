@@ -63,13 +63,13 @@ include the locally installed dist files or from cdn:
 
 Then, load desired font:
 
-    xfl.load("path-to-subset-font-folder").then(function(font) {
+    xfl.load({path: "path-to-subset-font-folder"}).then(function(font) {
         ...
     });
 
 Sync font based on given text:
 
-    xfl.load("path-to-subset-font-folder").then(function(font) {
+    xfl.load({path: "path-to-subset-font-folder"}).then(function(font) {
         font.sync("含有這些字的字型子集會被載入。Subset containgin glyphs from these chars will be loaded.");
     });
 
@@ -79,7 +79,7 @@ Font object API:
 
  - `init()`: init this font object. `xfl.load` will do this job for you.
  - `sync(text)`: load fonts based on given text.
- - `getotf()`: return `opentype.Font` from `opentype.js`.
+ - `getotf()`: return a promise, resolved to `opentype.Font` from `opentype.js`.
    - `opentype.js` is required for this method
    - `fetchAll()` will be called by this method.
  - `fetchAll()`: by default `xfl` use CSS to load fonts. `fecthAll()` fetch all subset fonts with JS again.

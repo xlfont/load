@@ -1,5 +1,12 @@
 # Change Logs
 
+## v1.0.13
+
+ - null check sub.font[0] before using it
+ - support string param in `load` api
+ - point entry point from `xfl.js` to `index.js`
+
+
 ## v1.0.12
 
  - add back proxise since we can't actually remove it for now

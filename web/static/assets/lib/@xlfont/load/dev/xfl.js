@@ -162,7 +162,7 @@
       list == null && (list = []);
       dofetch == null && (dofetch = false);
       if (!this.isXl) {
-        if (this.sub.font[0].blob) {
+        if (this.sub.font[0] && this.sub.font[0].blob) {
           return Promise.resolve();
         }
         list = [0];
@@ -367,6 +367,11 @@
     load: function(opt){
       var this$ = this;
       opt == null && (opt = {});
+      if (typeof opt === 'string') {
+        opt = {
+          path: opt
+        };
+      }
       return new Promise(function(res, rej){
         var path, that, ref$;
         if (!(path = opt.path)) {

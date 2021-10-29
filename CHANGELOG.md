@@ -1,5 +1,12 @@
 # Change Logs
 
+## v1.0.14 (upcoming)
+
+ - support merging font locally by opentype.js
+ - support web worker ( TBD )
+ - suppoty `style` and `weight` information
+
+
 ## v1.0.13
 
  - null check sub.font[0] before using it

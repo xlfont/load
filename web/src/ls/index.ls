@@ -1,11 +1,12 @@
 base = \https://plotdb.github.io/xl-fontset/alpha
 base = \/assets/fonts
+base = \https://xlfont.maketext.io/links
 #base = \alpha/ # for local testing
 
 editor = do
   init: ->
     @ldcv = new ldcover root: document.querySelector('.ldcv')
-    @ldld = new ldLoader root: document.querySelector('.ldcv .inner .ld')
+    @ldld = new ldloader root: document.querySelector('.ldcv .inner .ld')
     @svg = document.querySelector('svg')
     @path = document.querySelector('path')
     @textarea = document.querySelector \textarea
@@ -24,7 +25,7 @@ editor = do
             @font = it
             @sync!
       else @load font
-    @load \KleeOne-Regular
+    @load 'Klee One'
   to-svg: ->
     @ldld.on!
       .then ~> @ldcv.toggle!
@@ -42,7 +43,7 @@ editor = do
 
 
   load: (font) ->
-    xfl.load {path: "#base/#font"}
+    xfl.load {path: "#base/#font/normal/400"}
       .then (font) ~>
         @font = font
         @font.sync document.body.innerText
@@ -56,7 +57,7 @@ editor = do
 editor.init!
 
 #xfl.load {path: "#base/KleeOne-SemiBold"}
-xfl.load {path: "#base/SoukouMincho"}
+xfl.load {path: "#base/SoukouMincho/normal/400"}
   .then (font) ->
     headlines = Array.from(document.querySelectorAll 'h1,h2,h3')
     texts = headlines.map(-> it.innerText).join('')

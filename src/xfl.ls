@@ -61,6 +61,7 @@ xlfont = (opt = {}) ->
   if @format => @format = "format('#{@format}')"
   @className = "xfl-#{(@name or '').replace(/\s+/g,'_')}-#{Math.random!toString(36)substring(2)}"
   @is-xl = !@ext
+  if !@ext => @ext = \woff
   @do-merge = if opt.do-merge? => opt.do-merge else false
   @css = []
   @init = proxise.once ~> @_init!
@@ -97,7 +98,7 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
     if !dofetch =>
       if !f.url =>
         if @is-xl => f <<< url: "#{@path}/#{f.key}.#type", type: type
-        else f <<< url: @path, type: @ext.toLowerCase!
+        else f <<< url: @path, type: @ext.toLowerCase! or type
       return Promise.resolve f
     if f.blob => return Promise.resolve f
     if !f.proxy => f.proxy = proxise (f) ~>
@@ -110,7 +111,7 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
           if xhr.readyState != XMLHttpRequest.DONE => return
           if xhr.status != 200 => return rej err {code: xhr.status, message: xhr.responseText}
           @otf.dirty = true
-          f <<< url: URL.createObjectURL(xhr.response), blob: xhr.response, type: (@ext.toLowerCase! or 'ttf')
+          f <<< url: URL.createObjectURL(xhr.response), blob: xhr.response, type: (@ext.toLowerCase! or type)
           return res f
         if @is-xl => xhr.open \GET, "#{@path}/#{f.key}.#type"
         else xhr.open \GET, @path
@@ -135,12 +136,15 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
         @sub.font[d] = f = {key: d}
         # for xlfont, always use woff. otherwise use ttf
         type = if !@is-xl => \ttf else \woff
-        @_fetch f, (if !do-merge => dofetch else if +d == 1 => false else true), type
+        f.need-merge = (+d != 1)
+        # always fetch files if do-merge is true, since it may be large and many files
+        # that we want to prevent from uncertainty of network lagging
+        @_fetch f, (if !do-merge => dofetch else true), type
     Promise.all ps
       .then (subfonts) ~>
         if !do-merge => return subfonts
         ps = subfonts
-          .filter -> it.blob
+          .filter -> it.need-merge
           .map (font) ->
             # FileReader has better compatibility than blob.arrayBuffer
             # it.blob.arrayBuffer!
@@ -151,14 +155,14 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
         Promise.all ps
           .then -> xlf-merger {bufs: it, use-worker: false}
           .then (ab) ->
-            if !ab => return subfonts.filter(->!it.blob)
-            font = subfonts.filter(-> it.blob).0
+            if !ab => return subfonts.filter(->!it.need-merge)
+            font = subfonts.filter(->it.need-merge).0
             blob = new Blob [ab], {type: "font/#{font.type or 'ttf'}"}
             font =
               url: URL.createObjectURL(blob)
               blob: blob
               type: font.type or 'ttf'
-            return subfonts.filter(->!it.blob) ++ [font]
+            return subfonts.filter(->!it.need-merge) ++ [font]
 
       .then (subfonts) ~>
         if !subfonts.length => return

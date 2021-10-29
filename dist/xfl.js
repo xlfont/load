@@ -106,6 +106,9 @@ xlfont = function(opt){
   }
   this.className = "xfl-" + (this.name || '').replace(/\s+/g, '_') + "-" + Math.random().toString(36).substring(2);
   this.isXl = !this.ext;
+  if (!this.ext) {
+    this.ext = 'woff';
+  }
   this.doMerge = opt.doMerge != null ? opt.doMerge : false;
   this.css = [];
   this.init = proxise.once(function(){
@@ -162,7 +165,7 @@ xlfont.prototype = import$(Object.create(Object.prototype), {
           f.type = type;
         } else {
           f.url = this.path;
-          f.type = this.ext.toLowerCase();
+          f.type = this.ext.toLowerCase() || type;
         }
       }
       return Promise.resolve(f);
@@ -196,7 +199,7 @@ xlfont.prototype = import$(Object.create(Object.prototype), {
             this$.otf.dirty = true;
             f.url = URL.createObjectURL(xhr.response);
             f.blob = xhr.response;
-            f.type = this$.ext.toLowerCase() || 'ttf';
+            f.type = this$.ext.toLowerCase() || type;
             return res(f);
           });
           if (this$.isXl) {
@@ -252,9 +255,8 @@ xlfont.prototype = import$(Object.create(Object.prototype), {
         key: d
       };
       type = !this$.isXl ? 'ttf' : 'woff';
-      return this$._fetch(f, !doMerge
-        ? dofetch
-        : +d === 1 ? false : true, type);
+      f.needMerge = +d !== 1;
+      return this$._fetch(f, !doMerge ? dofetch : true, type);
     });
     return Promise.all(ps).then(function(subfonts){
       var ps;
@@ -262,7 +264,7 @@ xlfont.prototype = import$(Object.create(Object.prototype), {
         return subfonts;
       }
       ps = subfonts.filter(function(it){
-        return it.blob;
+        return it.needMerge;
       }).map(function(font){
         return new Promise(function(res, rej){
           var fr;
@@ -285,11 +287,11 @@ xlfont.prototype = import$(Object.create(Object.prototype), {
         var font, blob;
         if (!ab) {
           return subfonts.filter(function(it){
-            return !it.blob;
+            return !it.needMerge;
           });
         }
         font = subfonts.filter(function(it){
-          return it.blob;
+          return it.needMerge;
         })[0];
         blob = new Blob([ab], {
           type: "font/" + (font.type || 'ttf')
@@ -300,7 +302,7 @@ xlfont.prototype = import$(Object.create(Object.prototype), {
           type: font.type || 'ttf'
         };
         return subfonts.filter(function(it){
-          return !it.blob;
+          return !it.needMerge;
         }).concat([font]);
       });
     }).then(function(subfonts){

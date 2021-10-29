@@ -372,7 +372,7 @@ pug_html = pug_html + "\u003Cdiv class=\"dropdown-menu shadow-sm\" style=\"max-h
 ;pug_debug_line = 149;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 if (font.length > 1) {
 ;pug_debug_line = 150;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Ca" + (" class=\"dropdown-item d-flex align-items-center\""+" href=\"#\""+pug_attr("data-font", font[1], true, true)) + "\u003E";
+pug_html = pug_html + "\u003Ca" + (" class=\"dropdown-item d-flex align-items-center\""+" href=\"#\""+pug_attr("data-font", font[1], true, true)+pug_attr("data-weight", font[2], true, true)) + "\u003E";
 ;pug_debug_line = 151;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cdiv class=\"flex-grow-1\"\u003E";
 ;pug_debug_line = 151;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
@@ -408,7 +408,7 @@ pug_html = pug_html + (pug_escape(null == (pug_interp = font[0]) ? "" : pug_inte
 ;pug_debug_line = 149;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 if (font.length > 1) {
 ;pug_debug_line = 150;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + "\u003Ca" + (" class=\"dropdown-item d-flex align-items-center\""+" href=\"#\""+pug_attr("data-font", font[1], true, true)) + "\u003E";
+pug_html = pug_html + "\u003Ca" + (" class=\"dropdown-item d-flex align-items-center\""+" href=\"#\""+pug_attr("data-font", font[1], true, true)+pug_attr("data-weight", font[2], true, true)) + "\u003E";
 ;pug_debug_line = 151;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Cdiv class=\"flex-grow-1\"\u003E";
 ;pug_debug_line = 151;pug_debug_filename = "src\u002Fpug\u002Findex.pug";

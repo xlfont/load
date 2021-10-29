@@ -17,14 +17,14 @@ editor = do
       if target == \svg => return @to-svg!
       p = ld$.parent(e.target, '[data-font]', document.querySelector(\#chooser))
       if !p => return
-      [font,type] = [ p.getAttribute(\data-font), p.getAttribute(\data-type) ]
+      [font,type,weight] = <[data-font data-type data-weight]>.map -> p.getAttribute it
       if !font => return
       if type == \en =>
-        xfl.load {path: "fonts/#font.ttf"}
+        xfl.load {path: "#base/#font/normal/#weight.ttf", weight, style: \normal}
           .then ~>
             @font = it
             @sync!
-      else @load font
+      else @load font, weight
     @load 'Klee One'
   to-svg: ->
     @ldld.on!
@@ -42,8 +42,8 @@ editor = do
       .then ~> @ldld.off!
 
 
-  load: (font) ->
-    xfl.load {path: "#base/#font/normal/400"}
+  load: (font, weight = 400, style = \normal) ->
+    xfl.load {path: "#base/#font/#style/#weight", weight, style, do-merge: true}
       .then (font) ~>
         @font = font
         @font.sync document.body.innerText
@@ -57,6 +57,7 @@ editor = do
 editor.init!
 
 #xfl.load {path: "#base/KleeOne-SemiBold"}
+
 xfl.load {path: "#base/SoukouMincho/normal/400"}
   .then (font) ->
     headlines = Array.from(document.querySelectorAll 'h1,h2,h3')

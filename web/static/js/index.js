@@ -18,7 +18,7 @@ editor = {
       return this$.sync();
     });
     document.querySelector('#chooser').addEventListener('click', function(e){
-      var target, p, ref$, font, type;
+      var target, p, ref$, font, type, weight;
       if (!e || !e.target) {
         return;
       }
@@ -30,19 +30,23 @@ editor = {
       if (!p) {
         return;
       }
-      ref$ = [p.getAttribute('data-font'), p.getAttribute('data-type')], font = ref$[0], type = ref$[1];
+      ref$ = ['data-font', 'data-type', 'data-weight'].map(function(it){
+        return p.getAttribute(it);
+      }), font = ref$[0], type = ref$[1], weight = ref$[2];
       if (!font) {
         return;
       }
       if (type === 'en') {
         return xfl.load({
-          path: "fonts/" + font + ".ttf"
+          path: base + "/" + font + "/normal/" + weight + ".ttf",
+          weight: weight,
+          style: 'normal'
         }).then(function(it){
           this$.font = it;
           return this$.sync();
         });
       } else {
-        return this$.load(font);
+        return this$.load(font, weight);
       }
     });
     return this.load('Klee One');
@@ -67,10 +71,15 @@ editor = {
       return this$.ldld.off();
     });
   },
-  load: function(font){
+  load: function(font, weight, style){
     var this$ = this;
+    weight == null && (weight = 400);
+    style == null && (style = 'normal');
     return xfl.load({
-      path: base + "/" + font + "/normal/400"
+      path: base + "/" + font + "/" + style + "/" + weight,
+      weight: weight,
+      style: style,
+      doMerge: true
     }).then(function(font){
       this$.font = font;
       this$.font.sync(document.body.innerText);

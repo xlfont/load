@@ -1,5 +1,5 @@
 var onmessage;
-importScripts('http://localhost:50383/assets/lib/@plotdb/opentype.js/main/opentype.js');
+importScripts("/assets/lib/@plotdb/opentype.js/main/opentype.js");
 onmessage = function(e){
   var ref$, bufs, key;
   ref$ = e.data || {}, bufs = ref$.bufs, key = ref$.key;

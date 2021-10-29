@@ -1,4 +1,4 @@
-importScripts 'http://localhost:50383/assets/lib/@plotdb/opentype.js/main/opentype.js'
+importScripts("/assets/lib/@plotdb/opentype.js/main/opentype.js")
 
 onmessage = (e) ->
   {bufs, key} = e.data or {}

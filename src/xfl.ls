@@ -6,7 +6,7 @@ xlf-worker =
   queue: []
   init: ->
     if @worker => return
-    @worker = new Worker("/path-to-worker.js")
+    @worker = new Worker("/assets/lib/@xlfont/load/dev/worker.min.js")
     @worker.onmessage = (e) ~>
       {buf,key} = e.data
       if !(item = @queue.filter((q) -> key == q.key).0) => return
@@ -18,12 +18,13 @@ xlf-worker =
     @queue.push item = {res, rej, key: (@key++)}
     @worker.postMessage {bufs: abs, key: item.key}
 
-xlf-merger = (abs) ->
-  if !abs.length => return Promise.resolve!
+xlf-merger = ({bufs, use-worker}) ->
+  if !bufs.length => return Promise.resolve!
   # dont enable worker for now
-  if false => return xlf-worker.run abs
+  if use-worker => return console.error "[@xlfont/load] worker is not yet supported."
+  if use-worker => return xlf-worker.run bufs
   Promise.resolve!
-    .then -> abs.map -> opentype.parse it
+    .then -> bufs.map -> opentype.parse it
     .then (fonts) ->
       glyphs = []
       for font in fonts =>
@@ -44,8 +45,13 @@ xlfont = (opt = {}) ->
     font: null   # opentype.js font object
     dirty: true  # true if we need to re-generate
   @path = opt.path
-  @name = opt.name or (@path.replace(/\.[a-zA-Z0-9]+$/,'').split("/").filter(->it)[* - 1])
-  @style = 'normal'
+  @name = opt.name or (@path
+    .replace(/\.[a-zA-Z0-9]+$/,'')
+    .replace(/^https?:\/\/[^/]+\//g,'')
+    .replace(/\//g,'-')
+  ).toLowerCase!
+  @style = opt.style or \normal
+  @weight = opt.weight or \400
   @ext = (opt.ext or (/\.(ttf|otf|woff2|woff)$/.exec(@path) or []).1 or '')
   @format = if @ext.toLowerCase! =>
     if that == 'ttf' => 'truetype'
@@ -70,6 +76,8 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
         @font-face {
           font-family: "#{@name}";
           src: url("#{@path}") #{@format};
+          font-style: #{@style};
+          font-weight: #{@weight};
         }
         .#{@className} { font-family: "#{@name}"; }"""}]
         xfl.update!
@@ -141,7 +149,7 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
             fr <<< onerror: (-> rej it), onload: (-> res fr.result)
             fr.readAsArrayBuffer font.blob
         Promise.all ps
-          .then -> xlf-merger it
+          .then -> xlf-merger {bufs: it, use-worker: false}
           .then (ab) ->
             if !ab => return subfonts.filter(->!it.blob)
             font = subfonts.filter(-> it.blob).0
@@ -160,6 +168,8 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
           css += """@font-face {
             font-family: "#{@name}";
             src: url("#{f.url}") format('#{f.type}');
+            font-style: #{@style};
+            font-weight: #{@weight};
           }"""
         @css.push {content: css}
 

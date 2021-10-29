@@ -1,96 +1,96 @@
 doctype html
-include @/bootstrap.ldui/dist/index.pug
+include @/@loadingio/bootstrap.ext/dist/index.pug
 -
   var fontlist = [
     ["Fontworks"],
-    ["DotGothic16", "DotGothic16-Regular", "8231"],
-    ["KleeOne / SemiBold", "KleeOne-SemiBold", "10178"],
-    ["KleeOne", "KleeOne-Regular", "10178"],
-    ["Stick", "Stick-Regular", "8231"],
-    ["ReggaeOne", "ReggaeOne-Regular", "8231"],
-    ["RampartOne", "RampartOne-Regular", "8231"],
-    ["RocknRollOne", "RocknRollOne-Regular", "8230"],
-    ["TrainOne", "TrainOne-Regular", "4356"],
+    ["DotGothic16", "DotGothic16", 400, "8231"],
+    ["Klee One / SemiBold", "Klee One", 600, "10178"],
+    ["Klee One", "Klee One", 400, "10178"],
+    ["Stick", "Stick", 400, "8231"],
+    ["Reggae One", "Reggae One", 400, "8231"],
+    ["Rampart One", "Rampart One", 400, "8231"],
+    ["RocknRoll One", "RocknRoll One", 400, "8230"],
+    ["Train One", "Train One", 400, "4356"],
 
     ["Google x Adobe"],
-    ["思源宋體 / 極細", "NotoSerifCJKtc-ExtraLight", 65535],
-    ["思源宋體 / 細", "NotoSerifCJKtc-Light", 65535],
-    ["思源宋體", "NotoSerifCJKtc-Regular", 65535],
-    ["思源宋體 / 適中", "NotoSerifCJKtc-Medium", 65535],
-    ["思源宋體 / 次粗", "NotoSerifCJKtc-SemiBold", 65535],
-    ["思源宋體 / 粗", "NotoSerifCJKtc-Bold", 65535],
-    ["思源宋體 / 濃", "NotoSerifCJKtc-Black", 43029],
+    ["思源宋體 / 極細", "Noto Serif CJK TC", 200, 65535],
+    ["思源宋體 / 細", "Noto Serif CJK TC", 300, 65535],
+    ["思源宋體", "Noto Serif CJK TC", 400, 65535],
+    ["思源宋體 / 適中", "Noto Serif CJK TC", 500, 65535],
+    ["思源宋體 / 次粗", "Noto Serif CJK TC", 600, 65535],
+    ["思源宋體 / 粗", "Noto Serif CJK TC", 700, 65535],
+    ["思源宋體 / 濃", "Noto Serif CJK TC", 900, 43029],
 
-    ["思源黑體 / 極細", "NotoSansCJKtc-ExtraLight", 65535],
-    ["思源黑體 / 細", "NotoSansCJKtc-Light", 65535],
-    ["思源黑體", "NotoSansCJKtc-Regular", 65535],
-    ["思源黑體 / 適中", "NotoSansCJKtc-Medium", 65535],
-    ["思源黑體 / 次粗", "NotoSansCJKtc-SemiBold", 65535],
-    ["思源黑體 / 粗", "NotoSansCJKtc-Bold", 65535],
-    ["思源黑體 / 濃", "NotoSansCJKtc-Black", 65535],
+    ["思源黑體 / 極細", "Noto Sans CJK TC", 100, 65535],
+    ["思源黑體 / 細", "Noto Sans CJK TC", 200, 65535],
+    ["思源黑體 / 次細", "Noto Sans CJK TC", 300, 65535],
+    ["思源黑體", "Noto Sans CJK TC", 400, 65535],
+    ["思源黑體 / 適中", "Noto Sans CJK TC", 500, 65535],
+    ["思源黑體 / 粗", "Noto Sans CJK TC", 700, 65535],
+    ["思源黑體 / 濃", "Noto Sans CJK TC", 900, 65535],
 
-    ["思源等寬", "NotoSansMonoCJKtc-Regular", 65535],
-    ["思源等寬 / 粗", "NotoSansMonoCJKtc-Bold", 65535],
+    ["思源等寬", "Noto Sans Mono CJK TC", 400, 65535],
+    ["思源等寬 / 粗", "Noto Sans Mono CJK TC", 700, 65535],
 
     ["cjkFonts x 清松手寫體"],
-    ["cjk手寫4", "cjk手寫4", "12201"],
+    ["cjk手寫4", "JasonHandwriting4", 400, "12201"],
 
     ["justfont"],
-    ["粉圓體", "openhuninn-1.1", "9676"],
+    ["粉圓體", "jf-openhuninn-1-1", 400, "9676"],
 
     ["flopdesign"],
-    ["裝甲明朝", "SoukouMincho", "9803"],
+    ["裝甲明朝", "SoukouMincho", 400, "9803"],
 
     ["翰字鑄造JT Foundry"],
-    ["台北黑體 / 粗", "TaipeiSansTCBeta-Bold", "32732"],
-    ["台北黑體", "TaipeiSansTCBeta-Regular", "32731"],
-    ["台北黑體 / 細", "TaipeiSansTCBeta-Light", "32762"],
+    ["台北黑體 / 粗", "Taipei Sans TC", 700, "32732"],
+    ["台北黑體", "Taipei Sans TC", 400, "32731"],
+    ["台北黑體 / 細", "Taipei Sans TC", 300, "32762"],
 
     ["GlyphWiki"],
-    ["花園明朝A", "HanaminA", "41494"],
-    ["花園明朝B", "HanaminB", "60418"],
+    ["花園明朝A", "HanaminA", 400, "41494"],
+    ["花園明朝B", "HanaminB", 400, "60418"],
 
     ["瀨戶家族 x Max"],
-    ["內海字體 / 粗", "NaikaiFont-Bold", 46817],
-    ["內海字體 / 次粗", "NaikaiFont-SemiBold", 46817],
-    ["內海字體", "NaikaiFont-Regular", 46819],
-    ["內海字體 / 細", "NaikaiFont-Light", 46817],
-    ["內海字體 / 極細", "NaikaiFont-ExtraLight", 46817],
+    ["內海字體 / 粗", "NaikaiFont", 700, 46817],
+    ["內海字體 / 次粗", "NaikaiFont", 600, 46817],
+    ["內海字體", "NaikaiFont", 400, 46819],
+    ["內海字體 / 細", "NaikaiFont", 300, 46817],
+    ["內海字體 / 極細", "NaikaiFont", 200, 46817],
 
     ["もじワク"],
-    ["キウイ 丸 / 適中", "KiwiMaru-Medium", 8318],
-    ["キウイ 丸", "KiwiMaru-Regular", 8318],
-    ["キウイ 丸 / 細", "KiwiMaru-Light", 8318],
+    ["キウイ 丸 / 適中", "Kiwi Maru", 500, 8318],
+    ["キウイ 丸", "Kiwi Maru", 400, 8318],
+    ["キウイ 丸 / 細", "Kiwi Maru", 300, 8318],
 
     ["Satsuyako"],
-    ["Yomogi", "Yomogi-Regular", 8036],
+    ["Yomogi", "Yomogi", 400, 8036],
 
     ["Kousuke NAGAI"],
-    ["ニューテゴミン", "NewTegomin-Regular", 7074],
+    ["ニューテゴミン", "NewTegomin", 400, 7074],
 
     ["108go"],
-    ["ポッタ", "Potta-Regular", 7286],
+    ["ポッタ", "Potta", 400, 7286],
 
     ["Kumiko Yoshida"],
-    ["油性マジック", "YuseiMagic-Regular", 7566],
-    ["たぬゴ角-TTF / 極細", "Tanugo-TTF-ExtraLight", 7673],
-    ["たぬゴ角-TTF / 細", "Tanugo-TTF-Light", 7673],
-    ["たぬゴ角-TTF", "Tanugo-TTF-Regular", 7673],
-    ["たぬゴ角-TTF / 粗", "Tanugo-TTF-Bold", 7673],
-    ["たぬゴ丸-TTF / 細", "Tanugo-TTF-Round-Light", 7673],
-    ["たぬゴ丸-TTF / 粗", "Tanugo-TTF-Round-Bold", 7673],
+    ["油性マジック", "Yusei Magic", 400, 7566],
+    ["たぬゴ角-TTF / 極細", "Tanugo", 200, 7673],
+    ["たぬゴ角-TTF / 細", "Tanugo", 300, 7673],
+    ["たぬゴ角-TTF", "Tanugo", 400, 7673],
+    ["たぬゴ角-TTF / 粗", "Tanugo", 700, 7673],
+    ["たぬゴ丸-TTF / 細", "Tanugo Round", 300, 7673],
+    ["たぬゴ丸-TTF / 粗", "Tanugo Round", 700, 7673],
 
     ["LingDong"],
-    ["齊伋體", "qiji-combo", 21037],
+    ["齊伋體", "QIJIC", 400, 21037],
   ]
 -
   var featurefonts = [
-    ["內海字體", "NaikaiFont-Regular"],
-    ["思源宋體", "NotoSerifCJKtc-Regular"],
-    ["台北黑體", "TaipeiSansTCBeta-Regular"],
-    ["cjk手寫4", "cjk手寫4"],
-    ["粉圓體", "openhuninn-1.1"],
-    ["Rampart", "RampartOne-Regular"]
+    ["內海字體", "NaikaiFont", 400],
+    ["思源宋體", "Noto Serif CJK TC", 400],
+    ["台北黑體", "Taipei Sans TC", 400],
+    ["cjk手寫4", "JasonHandwriting4", 400],
+    ["粉圓體", "jf-openhuninn-1-1", 400],
+    ["Rampart", "Rampart One", 400]
   ]
 html
   head
@@ -108,11 +108,11 @@ html
     meta(property="article:section",content="Taiwan")
     meta(name="keywords",content="webfont,font loader,cjk")
     +css("assets/lib/bootstrap/main/css/bootstrap.min.css")
-    +css("assets/lib/bootstrap.ldui/main/bootstrap.ldui.min.css")
-    +css("assets/lib/ldloader/main/ldld.min.css")
+    +css("assets/lib/@loadingio/bootstrap.ext/main/index.min.css")
+    +css("assets/lib/ldloader/main/index.min.css")
     +css("assets/lib/ldbutton/main/ldbtn.min.css")
     +css("assets/lib/@loadingio/loading.css/main/loading.min.css")
-    +css("assets/lib/ldcover/main/ldcv.min.css")
+    +css("assets/lib/ldcover/main/index.min.css")
     +css("css/index.css")
   body: #root
     .ldcv: .base(style="max-width:90%;width:640px;height:480px;max-height:90%"): .inner
@@ -149,8 +149,8 @@ html
             if font.length > 1
               a.dropdown-item.d-flex.align-items-center(href="#",data-font=font[1])
                 .flex-grow-1= font[0]
-                if font[2]
-                  small.text-muted.ml-2 #{font[2]}字
+                if font[3]
+                  small.text-muted.ml-2 #{font[3]}字
             else
               if $index != 0
                 .dropdown-divider
@@ -228,8 +228,8 @@ html
 
     +script("assets/lib/bootstrap.native/main/bootstrap-native-v4.min.js")
     +script("assets/lib/@loadingio/ldquery/main/ldq.min.js")
-    +script("assets/lib/ldcover/main/ldcv.min.js")
-    +script("assets/lib/ldloader/main/ldld.min.js")
+    +script("assets/lib/ldcover/main/index.min.js")
+    +script("assets/lib/ldloader/main/index.min.js")
     +script("assets/lib/proxise/main/proxise.min.js")
     +script("assets/lib/@plotdb/opentype.js/main/opentype.js")
     +script("assets/lib/@xlfont/load/dev/xfl.js")

@@ -1,10 +1,79 @@
 (function(){
-  var err, xlfont, xfl;
+  var err, xlfWorker, xlfMerger, xlfont, xfl;
   err = function(e){
     e == null && (e = {});
     return import$(new Error(), import$({
       name: 'lderror'
     }, e));
+  };
+  xlfWorker = {
+    key: 0,
+    worker: null,
+    queue: [],
+    init: function(){
+      var this$ = this;
+      if (this.worker) {
+        return;
+      }
+      this.worker = new Worker("/path-to-worker.js");
+      return this.worker.onmessage = function(e){
+        var ref$, buf, key, item;
+        ref$ = e.data, buf = ref$.buf, key = ref$.key;
+        if (!(item = this$.queue.filter(function(q){
+          return key === q.key;
+        })[0])) {
+          return;
+        }
+        this$.queue.splice(this$.queue.indexOf(item), 1);
+        return item.res(buf);
+      };
+    },
+    run: function(abs){
+      var this$ = this;
+      return new Promise(function(res, rej){
+        var item;
+        this$.init();
+        this$.queue.push(item = {
+          res: res,
+          rej: rej,
+          key: this$.key++
+        });
+        return this$.worker.postMessage({
+          bufs: abs,
+          key: item.key
+        });
+      });
+    }
+  };
+  xlfMerger = function(abs){
+    if (!abs.length) {
+      return Promise.resolve();
+    }
+    if (false) {
+      return xlfWorker.run(abs);
+    }
+    return Promise.resolve().then(function(){
+      return abs.map(function(it){
+        return opentype.parse(it);
+      });
+    }).then(function(fonts){
+      var glyphs, i$, len$, font, j$, to$, i, merged, ref$;
+      glyphs = [];
+      for (i$ = 0, len$ = fonts.length; i$ < len$; ++i$) {
+        font = fonts[i$];
+        for (j$ = 0, to$ = font.glyphs.length; j$ < to$; ++j$) {
+          i = j$;
+          glyphs.push(font.glyphs.glyphs[i]);
+        }
+      }
+      font = fonts[0];
+      merged = new opentype.Font((ref$ = {
+        glyphs: glyphs,
+        familyName: font.names.fontFamily.en,
+        styleName: font.names.fontSubfamily.en
+      }, ref$.unitsPerEm = font.unitsPerEm, ref$.ascender = font.ascender, ref$.descender = font.descender, ref$));
+      return merged.toArrayBuffer();
+    });
   };
   xlfont = function(opt){
     var ref$, that, this$ = this;
@@ -34,6 +103,7 @@
     }
     this.className = "xfl-" + (this.name || '').replace(/\s+/g, '_') + "-" + Math.random().toString(36).substring(2);
     this.isXl = !this.ext;
+    this.doMerge = opt.doMerge != null ? opt.doMerge : false;
     this.css = [];
     this.init = proxise.once(function(){
       return this$._init();
@@ -77,15 +147,16 @@
         }
       });
     },
-    _fetch: function(f, dofetch){
+    _fetch: function(f, dofetch, type){
       var this$ = this;
       f == null && (f = {});
       dofetch == null && (dofetch = false);
+      type == null && (type = 'ttf');
       if (!dofetch) {
         if (!f.url) {
           if (this.isXl) {
-            f.url = this.path + "/" + f.key + ".woff2";
-            f.type = 'woff2';
+            f.url = this.path + "/" + f.key + "." + type;
+            f.type = type;
           } else {
             f.url = this.path;
             f.type = this.ext.toLowerCase();
@@ -126,7 +197,7 @@
               return res(f);
             });
             if (this$.isXl) {
-              xhr.open('GET', this$.path + "/" + f.key + ".ttf");
+              xhr.open('GET', this$.path + "/" + f.key + "." + type);
             } else {
               xhr.open('GET', this$.path);
             }
@@ -151,14 +222,14 @@
           }
           return results$;
         }.call(this)).map(function(it){
-          return this$._fetch(it, true);
+          return this$._fetch(it, true, 'woff');
         }));
       } else {
-        return this._fetch(this.sub.font[0], true);
+        return this._fetch(this.sub.font[0], true, 'ttf');
       }
     },
     fetch: function(list, dofetch){
-      var ps, this$ = this;
+      var doMerge, ps, this$ = this;
       list == null && (list = []);
       dofetch == null && (dofetch = false);
       if (!this.isXl) {
@@ -167,18 +238,66 @@
         }
         list = [0];
       }
+      doMerge = this.doMerge;
       ps = Array.from(new Set(list.map(function(it){
         return it;
       }))).filter(function(it){
         return !this$.sub.font[it];
-      }).map(function(it){
-        var f;
-        this$.sub.font[it] = f = {
-          key: it
+      }).map(function(d, i){
+        var f, type;
+        this$.sub.font[d] = f = {
+          key: d
         };
-        return this$._fetch(f, dofetch);
+        type = !this$.isXl ? 'ttf' : 'woff';
+        return this$._fetch(f, !doMerge
+          ? dofetch
+          : +d === 1 ? false : true, type);
       });
       return Promise.all(ps).then(function(subfonts){
+        var ps;
+        if (!doMerge) {
+          return subfonts;
+        }
+        ps = subfonts.filter(function(it){
+          return it.blob;
+        }).map(function(font){
+          return new Promise(function(res, rej){
+            var fr;
+            fr = new FileReader();
+            fr.onerror = function(it){
+              return rej(it);
+            };
+            fr.onload = function(){
+              return res(fr.result);
+            };
+            return fr.readAsArrayBuffer(font.blob);
+          });
+        });
+        return Promise.all(ps).then(function(it){
+          return xlfMerger(it);
+        }).then(function(ab){
+          var font, blob;
+          if (!ab) {
+            return subfonts.filter(function(it){
+              return !it.blob;
+            });
+          }
+          font = subfonts.filter(function(it){
+            return it.blob;
+          })[0];
+          blob = new Blob([ab], {
+            type: "font/" + (font.type || 'ttf')
+          });
+          font = {
+            url: URL.createObjectURL(blob),
+            blob: blob,
+            type: font.type || 'ttf'
+          };
+          return subfonts.filter(function(it){
+            return !it.blob;
+          }).concat([font]);
+        });
+      }).then(function(subfonts){
         var css, k, ref$, f, i$, len$;
         if (!subfonts.length) {
           return;

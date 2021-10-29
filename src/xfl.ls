@@ -1,5 +1,40 @@
 err = (e = {}) -> new Error! <<< ({name: \lderror} <<< e)
 
+xlf-worker =
+  key: 0
+  worker: null
+  queue: []
+  init: ->
+    if @worker => return
+    @worker = new Worker("/path-to-worker.js")
+    @worker.onmessage = (e) ~>
+      {buf,key} = e.data
+      if !(item = @queue.filter((q) -> key == q.key).0) => return
+      @queue.splice @queue.indexOf(item), 1
+      item.res buf
+  run: (abs) ->
+    (res, rej) <~ new Promise _
+    @init!
+    @queue.push item = {res, rej, key: (@key++)}
+    @worker.postMessage {bufs: abs, key: item.key}
+
+xlf-merger = (abs) ->
+  if !abs.length => return Promise.resolve!
+  # dont enable worker for now
+  if false => return xlf-worker.run abs
+  Promise.resolve!
+    .then -> abs.map -> opentype.parse it
+    .then (fonts) ->
+      glyphs = []
+      for font in fonts =>
+        for i from 0 til font.glyphs.length =>
+          glyphs.push font.glyphs.glyphs[i]
+      font = fonts.0
+      merged = new opentype.Font({glyphs: glyphs} <<< {
+        familyName: font.names.fontFamily.en, styleName: font.names.fontSubfamily.en
+      } <<< font{unitsPerEm, ascender, descender})
+      return merged.toArrayBuffer!
+
 xlfont = (opt = {}) ->
   @opt = opt
   @sub = {set: {}, font: {}}
@@ -20,6 +55,7 @@ xlfont = (opt = {}) ->
   if @format => @format = "format('#{@format}')"
   @className = "xfl-#{(@name or '').replace(/\s+/g,'_')}-#{Math.random!toString(36)substring(2)}"
   @is-xl = !@ext
+  @do-merge = if opt.do-merge? => opt.do-merge else false
   @css = []
   @init = proxise.once ~> @_init!
   @init!
@@ -49,10 +85,10 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
         xhr.open \GET, "#{@path}/charmap.txt"
         xhr.send!
 
-  _fetch: (f = {}, dofetch = false) ->
+  _fetch: (f = {}, dofetch = false, type = \ttf) ->
     if !dofetch =>
       if !f.url =>
-        if @is-xl => f <<< url: "#{@path}/#{f.key}.woff2", type: 'woff2'
+        if @is-xl => f <<< url: "#{@path}/#{f.key}.#type", type: type
         else f <<< url: @path, type: @ext.toLowerCase!
       return Promise.resolve f
     if f.blob => return Promise.resolve f
@@ -68,7 +104,7 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
           @otf.dirty = true
           f <<< url: URL.createObjectURL(xhr.response), blob: xhr.response, type: (@ext.toLowerCase! or 'ttf')
           return res f
-        if @is-xl => xhr.open \GET, "#{@path}/#{f.key}.ttf"
+        if @is-xl => xhr.open \GET, "#{@path}/#{f.key}.#type"
         else xhr.open \GET, @path
         xhr.responseType = \blob
         xhr.send!
@@ -76,19 +112,46 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
     f.proxy f
 
   fetch-all: ->
-    if @is-xl => Promise.all([f for k,f of @sub.font].map ~> @_fetch it, true)
-    else @_fetch @sub.font[0], true
+    if @is-xl => Promise.all([f for k,f of @sub.font].map ~> @_fetch it, true, \woff)
+    else @_fetch @sub.font[0], true, \ttf
   fetch: (list = [], dofetch = false) ->
     if !@is-xl =>
       if @sub.font.0 and @sub.font.0.blob => return Promise.resolve!
       list = [0]
+    # true: fetch secondary fonts and merge with opentype.js
+    do-merge = @do-merge
     # to support dynamic font aggregation, patch this following line
     ps = Array.from new Set(list.map -> it)
       .filter ~> !@sub.font[it]
-      .map ~>
-        @sub.font[it] = f = {key: it}
-        @_fetch f, dofetch
+      .map (d, i) ~>
+        @sub.font[d] = f = {key: d}
+        # for xlfont, always use woff. otherwise use ttf
+        type = if !@is-xl => \ttf else \woff
+        @_fetch f, (if !do-merge => dofetch else if +d == 1 => false else true), type
     Promise.all ps
+      .then (subfonts) ~>
+        if !do-merge => return subfonts
+        ps = subfonts
+          .filter -> it.blob
+          .map (font) ->
+            # FileReader has better compatibility than blob.arrayBuffer
+            # it.blob.arrayBuffer!
+            (res, rej) <- new Promise _
+            fr = new FileReader!
+            fr <<< onerror: (-> rej it), onload: (-> res fr.result)
+            fr.readAsArrayBuffer font.blob
+        Promise.all ps
+          .then -> xlf-merger it
+          .then (ab) ->
+            if !ab => return subfonts.filter(->!it.blob)
+            font = subfonts.filter(-> it.blob).0
+            blob = new Blob [ab], {type: "font/#{font.type or 'ttf'}"}
+            font =
+              url: URL.createObjectURL(blob)
+              blob: blob
+              type: font.type or 'ttf'
+            return subfonts.filter(->!it.blob) ++ [font]
+
       .then (subfonts) ~>
         if !subfonts.length => return
         css = """.#{@className} { font-family: "#{@name}"; }"""

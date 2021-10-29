@@ -1,13 +1,14 @@
 var base, editor;
 base = 'https://plotdb.github.io/xl-fontset/alpha';
 base = '/assets/fonts';
+base = 'https://xlfont.maketext.io/links';
 editor = {
   init: function(){
     var this$ = this;
     this.ldcv = new ldcover({
       root: document.querySelector('.ldcv')
     });
-    this.ldld = new ldLoader({
+    this.ldld = new ldloader({
       root: document.querySelector('.ldcv .inner .ld')
     });
     this.svg = document.querySelector('svg');
@@ -44,7 +45,7 @@ editor = {
         return this$.load(font);
       }
     });
-    return this.load('KleeOne-Regular');
+    return this.load('Klee One');
   },
   toSvg: function(){
     var this$ = this;
@@ -69,7 +70,7 @@ editor = {
   load: function(font){
     var this$ = this;
     return xfl.load({
-      path: base + "/" + font
+      path: base + "/" + font + "/normal/400"
     }).then(function(font){
       this$.font = font;
       this$.font.sync(document.body.innerText);
@@ -87,7 +88,7 @@ editor = {
 };
 editor.init();
 xfl.load({
-  path: base + "/SoukouMincho"
+  path: base + "/SoukouMincho/normal/400"
 }).then(function(font){
   var headlines, texts;
   headlines = Array.from(document.querySelectorAll('h1,h2,h3'));

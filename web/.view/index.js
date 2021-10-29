@@ -7,48 +7,48 @@ function pug_rethrow(e,n,r,t){if(!(e instanceof Error))throw e;if(!("undefined"=
     (function (JSON, b64img, blockLoader, cssLoader, decache, escape, featurefonts, fontlist, scriptLoader, version) {
       ;pug_debug_line = 1;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003C!DOCTYPE html\u003E";
-;pug_debug_line = 2;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 2;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 if(!scriptLoader) { scriptLoader = {url: {}, config: {}}; }
-;pug_debug_line = 3;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 3;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 if(!decache) { decache = (version? "?v=" + version : ""); }
-;pug_debug_line = 4;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 4;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 pug_mixins["script"] = pug_interp = function(url,config){
 var block = (this && this.block), attributes = (this && this.attributes) || {};
-;pug_debug_line = 5;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 5;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 scriptLoader.config = (config ? config : {});
-;pug_debug_line = 6;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 6;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 if (!scriptLoader.url[url]) {
-;pug_debug_line = 7;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 7;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 scriptLoader.url[url] = true;
-;pug_debug_line = 8;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 8;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 if (/^https?:\/\/./.exec(url)) {
-;pug_debug_line = 9;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 9;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 pug_html = pug_html + "\u003Cscript" + (" type=\"text\u002Fjavascript\""+pug_attr("src", url, true, true)+pug_attr("defer", !!scriptLoader.config.defer, true, true)+pug_attr("async", !!scriptLoader.config.async, true, true)) + "\u003E\u003C\u002Fscript\u003E";
 }
 else {
-;pug_debug_line = 12;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 12;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 pug_html = pug_html + "\u003Cscript" + (" type=\"text\u002Fjavascript\""+pug_attr("src", url + decache, true, true)+pug_attr("defer", !!scriptLoader.config.defer, true, true)+pug_attr("async", !!scriptLoader.config.async, true, true)) + "\u003E\u003C\u002Fscript\u003E";
 }
 }
 };
-;pug_debug_line = 15;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 15;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 if(!cssLoader) { cssLoader = {url: {}}; }
-;pug_debug_line = 16;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 16;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 pug_mixins["css"] = pug_interp = function(url,config){
 var block = (this && this.block), attributes = (this && this.attributes) || {};
-;pug_debug_line = 17;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 17;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 cssLoader.config = (config ? config : {});
-;pug_debug_line = 18;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 18;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 if (!cssLoader.url[url]) {
-;pug_debug_line = 19;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 19;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 cssLoader.url[url] = true;
-;pug_debug_line = 20;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 20;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 pug_html = pug_html + "\u003Clink" + (" rel=\"stylesheet\" type=\"text\u002Fcss\""+pug_attr("href", url + decache, true, true)) + "\u003E";
 }
 };
-;pug_debug_line = 22;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 22;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 if(!blockLoader) { blockLoader = {name: {}, config: {}}; }
-;pug_debug_line = 23;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 23;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 
 
 
@@ -59,31 +59,31 @@ if(!blockLoader) { blockLoader = {name: {}, config: {}}; }
 
 
 
-;pug_debug_line = 28;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 28;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 var escjson = function(obj) { return 'JSON.parse(unescape("' + escape(JSON.stringify(obj)) + '"))'; };
-;pug_debug_line = 30;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 30;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 var eschtml = (function() { var MAP = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&#34;', "'": '&#39;' }; var repl = function(c) { return MAP[c]; }; return function(s) { return s.replace(/[&<>'"]/g, repl); }; })();
-;pug_debug_line = 33;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 33;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 pug_mixins["nbr"] = pug_interp = function(count){
 var block = (this && this.block), attributes = (this && this.attributes) || {};
-;pug_debug_line = 34;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 34;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 for (var i = 0; i < count; i++)
 {
-;pug_debug_line = 35;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 35;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 pug_html = pug_html + "\u003Cbr\u003E";
 }
 };
-;pug_debug_line = 36;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 36;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 var b64img = {};
-;pug_debug_line = 37;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 37;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 b64img.px1 = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAQAICRAEAOw=="
-;pug_debug_line = 39;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 39;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 var loremtext = {
   zh: "料何緊許團人受間口語日是藝一選去，得系目、再驗現表爸示片球法中轉國想我樹我，色生早都沒方上情精一廣發！能生運想毒一生人一身德接地，說張在未安人、否臺重壓車亞是我！終力邊技的大因全見起？切問去火極性現中府會行多他千時，來管表前理不開走於展長因，現多上我，工行他眼。總務離子方區面人話同下，這國當非視後得父能民觀基作影輕印度民雖主他是一，星月死較以太就而開後現：國這作有，他你地象的則，引管戰照十都是與行求證來亞電上地言裡先保。大去形上樹。計太風何不先歡的送但假河線己綠？計像因在……初人快政爭連合多考超的得麼此是間不跟代光離制不主政重造的想高據的意臺月飛可成可有時情乎為灣臺我養家小，叫轉於可！錢因其他節，物如盡男府我西上事是似個過孩而過要海？更神施一關王野久沒玩動一趣庭顧倒足要集我民雲能信爸合以物頭容戰度系士我多學一、區作一，過業手：大不結獨星科表小黨上千法值之兒聲價女去大著把己。",
   en: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 };
 
-;pug_debug_line = 45;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 45;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 
 
 
@@ -91,7 +91,7 @@ var loremtext = {
 
 
 
-;pug_debug_line = 47;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002Fbootstrap.ldui\u002Fdist\u002Findex.pug";
+;pug_debug_line = 47;pug_debug_filename = "\u002FUsers\u002Ftkirby\u002Fworkspace\u002Fzbryikt\u002Fxlfont\u002Fload\u002Fnode_modules\u002F@loadingio\u002Fbootstrap.ext\u002Fdist\u002Findex.pug";
 
 
 
@@ -108,94 +108,94 @@ var loremtext = {
 ;pug_debug_line = 3;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 var fontlist = [
   ["Fontworks"],
-  ["DotGothic16", "DotGothic16-Regular", "8231"],
-  ["KleeOne / SemiBold", "KleeOne-SemiBold", "10178"],
-  ["KleeOne", "KleeOne-Regular", "10178"],
-  ["Stick", "Stick-Regular", "8231"],
-  ["ReggaeOne", "ReggaeOne-Regular", "8231"],
-  ["RampartOne", "RampartOne-Regular", "8231"],
-  ["RocknRollOne", "RocknRollOne-Regular", "8230"],
-  ["TrainOne", "TrainOne-Regular", "4356"],
+  ["DotGothic16", "DotGothic16", 400, "8231"],
+  ["Klee One / SemiBold", "Klee One", 600, "10178"],
+  ["Klee One", "Klee One", 400, "10178"],
+  ["Stick", "Stick", 400, "8231"],
+  ["Reggae One", "Reggae One", 400, "8231"],
+  ["Rampart One", "Rampart One", 400, "8231"],
+  ["RocknRoll One", "RocknRoll One", 400, "8230"],
+  ["Train One", "Train One", 400, "4356"],
 
   ["Google x Adobe"],
-  ["思源宋體 / 極細", "NotoSerifCJKtc-ExtraLight", 65535],
-  ["思源宋體 / 細", "NotoSerifCJKtc-Light", 65535],
-  ["思源宋體", "NotoSerifCJKtc-Regular", 65535],
-  ["思源宋體 / 適中", "NotoSerifCJKtc-Medium", 65535],
-  ["思源宋體 / 次粗", "NotoSerifCJKtc-SemiBold", 65535],
-  ["思源宋體 / 粗", "NotoSerifCJKtc-Bold", 65535],
-  ["思源宋體 / 濃", "NotoSerifCJKtc-Black", 43029],
+  ["思源宋體 / 極細", "Noto Serif CJK TC", 200, 65535],
+  ["思源宋體 / 細", "Noto Serif CJK TC", 300, 65535],
+  ["思源宋體", "Noto Serif CJK TC", 400, 65535],
+  ["思源宋體 / 適中", "Noto Serif CJK TC", 500, 65535],
+  ["思源宋體 / 次粗", "Noto Serif CJK TC", 600, 65535],
+  ["思源宋體 / 粗", "Noto Serif CJK TC", 700, 65535],
+  ["思源宋體 / 濃", "Noto Serif CJK TC", 900, 43029],
 
-  ["思源黑體 / 極細", "NotoSansCJKtc-ExtraLight", 65535],
-  ["思源黑體 / 細", "NotoSansCJKtc-Light", 65535],
-  ["思源黑體", "NotoSansCJKtc-Regular", 65535],
-  ["思源黑體 / 適中", "NotoSansCJKtc-Medium", 65535],
-  ["思源黑體 / 次粗", "NotoSansCJKtc-SemiBold", 65535],
-  ["思源黑體 / 粗", "NotoSansCJKtc-Bold", 65535],
-  ["思源黑體 / 濃", "NotoSansCJKtc-Black", 65535],
+  ["思源黑體 / 極細", "Noto Sans CJK TC", 100, 65535],
+  ["思源黑體 / 細", "Noto Sans CJK TC", 200, 65535],
+  ["思源黑體 / 次細", "Noto Sans CJK TC", 300, 65535],
+  ["思源黑體", "Noto Sans CJK TC", 400, 65535],
+  ["思源黑體 / 適中", "Noto Sans CJK TC", 500, 65535],
+  ["思源黑體 / 粗", "Noto Sans CJK TC", 700, 65535],
+  ["思源黑體 / 濃", "Noto Sans CJK TC", 900, 65535],
 
-  ["思源等寬", "NotoSansMonoCJKtc-Regular", 65535],
-  ["思源等寬 / 粗", "NotoSansMonoCJKtc-Bold", 65535],
+  ["思源等寬", "Noto Sans Mono CJK TC", 400, 65535],
+  ["思源等寬 / 粗", "Noto Sans Mono CJK TC", 700, 65535],
 
   ["cjkFonts x 清松手寫體"],
-  ["cjk手寫4", "cjk手寫4", "12201"],
+  ["cjk手寫4", "JasonHandwriting4", 400, "12201"],
 
   ["justfont"],
-  ["粉圓體", "openhuninn-1.1", "9676"],
+  ["粉圓體", "jf-openhuninn-1-1", 400, "9676"],
 
   ["flopdesign"],
-  ["裝甲明朝", "SoukouMincho", "9803"],
+  ["裝甲明朝", "SoukouMincho", 400, "9803"],
 
   ["翰字鑄造JT Foundry"],
-  ["台北黑體 / 粗", "TaipeiSansTCBeta-Bold", "32732"],
-  ["台北黑體", "TaipeiSansTCBeta-Regular", "32731"],
-  ["台北黑體 / 細", "TaipeiSansTCBeta-Light", "32762"],
+  ["台北黑體 / 粗", "Taipei Sans TC", 700, "32732"],
+  ["台北黑體", "Taipei Sans TC", 400, "32731"],
+  ["台北黑體 / 細", "Taipei Sans TC", 300, "32762"],
 
   ["GlyphWiki"],
-  ["花園明朝A", "HanaminA", "41494"],
-  ["花園明朝B", "HanaminB", "60418"],
+  ["花園明朝A", "HanaminA", 400, "41494"],
+  ["花園明朝B", "HanaminB", 400, "60418"],
 
   ["瀨戶家族 x Max"],
-  ["內海字體 / 粗", "NaikaiFont-Bold", 46817],
-  ["內海字體 / 次粗", "NaikaiFont-SemiBold", 46817],
-  ["內海字體", "NaikaiFont-Regular", 46819],
-  ["內海字體 / 細", "NaikaiFont-Light", 46817],
-  ["內海字體 / 極細", "NaikaiFont-ExtraLight", 46817],
+  ["內海字體 / 粗", "NaikaiFont", 700, 46817],
+  ["內海字體 / 次粗", "NaikaiFont", 600, 46817],
+  ["內海字體", "NaikaiFont", 400, 46819],
+  ["內海字體 / 細", "NaikaiFont", 300, 46817],
+  ["內海字體 / 極細", "NaikaiFont", 200, 46817],
 
   ["もじワク"],
-  ["キウイ 丸 / 適中", "KiwiMaru-Medium", 8318],
-  ["キウイ 丸", "KiwiMaru-Regular", 8318],
-  ["キウイ 丸 / 細", "KiwiMaru-Light", 8318],
+  ["キウイ 丸 / 適中", "Kiwi Maru", 500, 8318],
+  ["キウイ 丸", "Kiwi Maru", 400, 8318],
+  ["キウイ 丸 / 細", "Kiwi Maru", 300, 8318],
 
   ["Satsuyako"],
-  ["Yomogi", "Yomogi-Regular", 8036],
+  ["Yomogi", "Yomogi", 400, 8036],
 
   ["Kousuke NAGAI"],
-  ["ニューテゴミン", "NewTegomin-Regular", 7074],
+  ["ニューテゴミン", "NewTegomin", 400, 7074],
 
   ["108go"],
-  ["ポッタ", "Potta-Regular", 7286],
+  ["ポッタ", "Potta", 400, 7286],
 
   ["Kumiko Yoshida"],
-  ["油性マジック", "YuseiMagic-Regular", 7566],
-  ["たぬゴ角-TTF / 極細", "Tanugo-TTF-ExtraLight", 7673],
-  ["たぬゴ角-TTF / 細", "Tanugo-TTF-Light", 7673],
-  ["たぬゴ角-TTF", "Tanugo-TTF-Regular", 7673],
-  ["たぬゴ角-TTF / 粗", "Tanugo-TTF-Bold", 7673],
-  ["たぬゴ丸-TTF / 細", "Tanugo-TTF-Round-Light", 7673],
-  ["たぬゴ丸-TTF / 粗", "Tanugo-TTF-Round-Bold", 7673],
+  ["油性マジック", "Yusei Magic", 400, 7566],
+  ["たぬゴ角-TTF / 極細", "Tanugo", 200, 7673],
+  ["たぬゴ角-TTF / 細", "Tanugo", 300, 7673],
+  ["たぬゴ角-TTF", "Tanugo", 400, 7673],
+  ["たぬゴ角-TTF / 粗", "Tanugo", 700, 7673],
+  ["たぬゴ丸-TTF / 細", "Tanugo Round", 300, 7673],
+  ["たぬゴ丸-TTF / 粗", "Tanugo Round", 700, 7673],
 
   ["LingDong"],
-  ["齊伋體", "qiji-combo", 21037],
+  ["齊伋體", "QIJIC", 400, 21037],
 ]
 ;pug_debug_line = 86;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 var featurefonts = [
-  ["內海字體", "NaikaiFont-Regular"],
-  ["思源宋體", "NotoSerifCJKtc-Regular"],
-  ["台北黑體", "TaipeiSansTCBeta-Regular"],
-  ["cjk手寫4", "cjk手寫4"],
-  ["粉圓體", "openhuninn-1.1"],
-  ["Rampart", "RampartOne-Regular"]
+  ["內海字體", "NaikaiFont", 400],
+  ["思源宋體", "Noto Serif CJK TC", 400],
+  ["台北黑體", "Taipei Sans TC", 400],
+  ["cjk手寫4", "JasonHandwriting4", 400],
+  ["粉圓體", "jf-openhuninn-1-1", 400],
+  ["Rampart", "Rampart One", 400]
 ]
 ;pug_debug_line = 95;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Chtml\u003E";
@@ -230,15 +230,15 @@ pug_html = pug_html + "\u003Cmeta name=\"keywords\" content=\"webfont,font loade
 ;pug_debug_line = 110;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["css"]("assets/lib/bootstrap/main/css/bootstrap.min.css");
 ;pug_debug_line = 111;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["css"]("assets/lib/bootstrap.ldui/main/bootstrap.ldui.min.css");
+pug_mixins["css"]("assets/lib/@loadingio/bootstrap.ext/main/index.min.css");
 ;pug_debug_line = 112;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["css"]("assets/lib/ldloader/main/ldld.min.css");
+pug_mixins["css"]("assets/lib/ldloader/main/index.min.css");
 ;pug_debug_line = 113;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["css"]("assets/lib/ldbutton/main/ldbtn.min.css");
 ;pug_debug_line = 114;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["css"]("assets/lib/@loadingio/loading.css/main/loading.min.css");
 ;pug_debug_line = 115;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["css"]("assets/lib/ldcover/main/ldcv.min.css");
+pug_mixins["css"]("assets/lib/ldcover/main/index.min.css");
 ;pug_debug_line = 116;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["css"]("css/index.css");
 pug_html = pug_html + "\u003C\u002Fhead\u003E";
@@ -378,11 +378,11 @@ pug_html = pug_html + "\u003Cdiv class=\"flex-grow-1\"\u003E";
 ;pug_debug_line = 151;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + (pug_escape(null == (pug_interp = font[0]) ? "" : pug_interp)) + "\u003C\u002Fdiv\u003E";
 ;pug_debug_line = 152;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-if (font[2]) {
+if (font[3]) {
 ;pug_debug_line = 153;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Csmall class=\"text-muted ml-2\"\u003E";
 ;pug_debug_line = 153;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + (pug_escape(null == (pug_interp = font[2]) ? "" : pug_interp));
+pug_html = pug_html + (pug_escape(null == (pug_interp = font[3]) ? "" : pug_interp));
 ;pug_debug_line = 153;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "字\u003C\u002Fsmall\u003E";
 }
@@ -414,11 +414,11 @@ pug_html = pug_html + "\u003Cdiv class=\"flex-grow-1\"\u003E";
 ;pug_debug_line = 151;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + (pug_escape(null == (pug_interp = font[0]) ? "" : pug_interp)) + "\u003C\u002Fdiv\u003E";
 ;pug_debug_line = 152;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-if (font[2]) {
+if (font[3]) {
 ;pug_debug_line = 153;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "\u003Csmall class=\"text-muted ml-2\"\u003E";
 ;pug_debug_line = 153;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_html = pug_html + (pug_escape(null == (pug_interp = font[2]) ? "" : pug_interp));
+pug_html = pug_html + (pug_escape(null == (pug_interp = font[3]) ? "" : pug_interp));
 ;pug_debug_line = 153;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_html = pug_html + "字\u003C\u002Fsmall\u003E";
 }
@@ -756,9 +756,9 @@ pug_mixins["script"]("assets/lib/bootstrap.native/main/bootstrap-native-v4.min.j
 ;pug_debug_line = 230;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["script"]("assets/lib/@loadingio/ldquery/main/ldq.min.js");
 ;pug_debug_line = 231;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["script"]("assets/lib/ldcover/main/ldcv.min.js");
+pug_mixins["script"]("assets/lib/ldcover/main/index.min.js");
 ;pug_debug_line = 232;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["script"]("assets/lib/ldloader/main/ldld.min.js");
+pug_mixins["script"]("assets/lib/ldloader/main/index.min.js");
 ;pug_debug_line = 233;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["script"]("assets/lib/proxise/main/proxise.min.js");
 ;pug_debug_line = 234;pug_debug_filename = "src\u002Fpug\u002Findex.pug";

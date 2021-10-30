@@ -4,7 +4,7 @@ base = '/assets/fonts';
 base = 'https://xlfont.maketext.io/links';
 editor = {
   init: function(){
-    var promiseBody, promiseHead, this$ = this;
+    var this$ = this;
     this.ldcv = new ldcover({
       root: document.querySelector('.ldcv')
     });
@@ -27,7 +27,7 @@ editor = {
       return this$.sync();
     });
     document.querySelector('#chooser').addEventListener('click', function(e){
-      var target, p, ref$, font, type, weight, promise;
+      var target, p, ref$, font, type, weight;
       if (!e || !e.target) {
         return;
       }
@@ -46,38 +46,43 @@ editor = {
         return;
       }
       this$.gld.on();
-      promise = type === 'en'
-        ? xfl.load({
+      return debounce(350).then(function(){
+        if (type !== 'en') {
+          return this$.load(font, weight);
+        }
+        return xfl.load({
           path: base + "/" + font + "/normal/" + weight + ".ttf",
           weight: weight,
           style: 'normal'
         }).then(function(it){
           this$.font = it;
           return this$.sync();
-        })
-        : this$.load(font, weight);
-      return promise.then(function(){
+        });
+      }).then(function(){
         console.log('loaded');
         return this$.gld.off();
       });
     });
     this.gld.on();
-    promiseBody = this.load('Klee One');
-    promiseHead = xfl.load({
-      path: base + "/SoukouMincho/normal/400"
-    }).then(function(font){
-      var headlines, texts;
-      headlines = Array.from(document.querySelectorAll('h1,h2,h3'));
-      texts = headlines.map(function(it){
-        return it.innerText;
-      }).join('');
-      return font.sync(texts).then(function(){
-        return headlines.map(function(it){
-          return it.classList.add(font.className);
+    return debounce(350).then(function(){
+      var promiseBody, promiseHead;
+      promiseBody = this$.load('Klee One');
+      promiseHead = xfl.load({
+        path: base + "/SoukouMincho/normal/400"
+      }).then(function(font){
+        var headlines, texts;
+        headlines = Array.from(document.querySelectorAll('h1,h2,h3'));
+        texts = headlines.map(function(it){
+          return it.innerText;
+        }).join('');
+        return font.sync(texts).then(function(){
+          return headlines.map(function(it){
+            return it.classList.add(font.className);
+          });
         });
       });
-    });
-    return Promise.all([promiseHead, promiseBody]).then(function(){
+      return Promise.all([promiseHead, promiseBody]);
+    }).then(function(){
       console.log('inited.');
       return this$.gld.off();
     });

@@ -22,25 +22,27 @@ editor = do
       [font,type,weight] = <[data-font data-type data-weight]>.map -> p.getAttribute it
       if !font => return
       @gld.on!
-      promise = if type == \en =>
-        xfl.load {path: "#base/#font/normal/#weight.ttf", weight, style: \normal}
-          .then ~>
-            @font = it
-            @sync!
-      else @load font, weight
-      promise
+      debounce 350
+        .then ~>
+          if type != \en => return @load font, weight
+          xfl.load {path: "#base/#font/normal/#weight.ttf", weight, style: \normal}
+            .then ~>
+              @font = it
+              @sync!
         .then ~>
           console.log \loaded
           @gld.off!
     @gld.on!
-    promise-body = @load 'Klee One'
-    promise-head = xfl.load {path: "#base/SoukouMincho/normal/400"}
-      .then (font) ->
-        headlines = Array.from(document.querySelectorAll 'h1,h2,h3')
-        texts = headlines.map(-> it.innerText).join('')
-        font.sync texts
-          .then -> headlines.map -> it.classList.add font.className
-    Promise.all [promise-head, promise-body]
+    debounce 350
+      .then ~>
+        promise-body = @load 'Klee One'
+        promise-head = xfl.load {path: "#base/SoukouMincho/normal/400"}
+          .then (font) ->
+            headlines = Array.from(document.querySelectorAll 'h1,h2,h3')
+            texts = headlines.map(-> it.innerText).join('')
+            font.sync texts
+              .then -> headlines.map -> it.classList.add font.className
+        Promise.all [promise-head, promise-body]
       .then ~>
         console.log \inited.
         @gld.off!

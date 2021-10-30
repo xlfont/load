@@ -768,16 +768,18 @@ pug_mixins["script"]("assets/lib/bootstrap.native/main/bootstrap-native-v4.min.j
 ;pug_debug_line = 233;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["script"]("assets/lib/@loadingio/ldquery/main/ldq.min.js");
 ;pug_debug_line = 234;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["script"]("assets/lib/ldcover/main/index.min.js");
+pug_mixins["script"]("assets/lib/@loadingio/debounce.js/main/debounce.min.js");
 ;pug_debug_line = 235;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["script"]("assets/lib/ldloader/main/index.min.js");
+pug_mixins["script"]("assets/lib/ldcover/main/index.min.js");
 ;pug_debug_line = 236;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["script"]("assets/lib/proxise/main/proxise.min.js");
+pug_mixins["script"]("assets/lib/ldloader/main/index.min.js");
 ;pug_debug_line = 237;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["script"]("assets/lib/@plotdb/opentype.js/main/opentype.js");
+pug_mixins["script"]("assets/lib/proxise/main/proxise.min.js");
 ;pug_debug_line = 238;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
-pug_mixins["script"]("assets/lib/@xlfont/load/dev/xfl.js");
+pug_mixins["script"]("assets/lib/@plotdb/opentype.js/main/opentype.js");
 ;pug_debug_line = 239;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
+pug_mixins["script"]("assets/lib/@xlfont/load/dev/xfl.js");
+;pug_debug_line = 240;pug_debug_filename = "src\u002Fpug\u002Findex.pug";
 pug_mixins["script"]("js/index.js");
 pug_html = pug_html + "\u003C\u002Fdiv\u003E\u003C\u002Fbody\u003E\u003C\u002Fhtml\u003E";
     }.call(this, "JSON" in locals_for_with ?

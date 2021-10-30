@@ -1,6 +1,6 @@
 # Change Logs
 
-## v1.0.14 (upcoming)
+## v1.1.0
 
  - support merging font locally by opentype.js
  - support web worker ( TBD )
@@ -9,7 +9,8 @@
  - accept `use-worker` as an option, but still dont enable it
  - normalize font name if it's derived from url
  - load xlfont with woff instead of ttf.
- - support `hasChar(c)` and `getPath(opt)` methods natively
+ - support `hasChar(c)`
+ - support `getPath(opt)` as xlfont method, which check chars for availability before rendering.
  - let misschar also keep tracks of supported char (by setting it to false)
 
 

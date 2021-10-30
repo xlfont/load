@@ -44,7 +44,7 @@
     "fedep": "^0.0.17",
     "ldbutton": "^1.0.2",
     "ldcover": "^2.0.0",
-    "ldloader": "^2.0.1",
+    "ldloader": "^2.1.0",
     "ldview": "^0.2.7",
     "livescript": "^1.6.0",
     "stylus": "^0.55.0",

@@ -94,7 +94,7 @@ xlfont = function(opt){
     dirty: true
   };
   this.path = opt.path;
-  this.name = opt.name || this.path.replace(/\.[a-zA-Z0-9]+$/, '').replace(/^https?:\/\/[^/]+\//g, '').replace(/\//g, '-').toLowerCase();
+  this.name = opt.name || this.path.replace(/\.[a-zA-Z0-9]+$/, '').replace(/^https?:\/\/[^/]+\//g, '').replace(/\s/g, '-').replace(/\//g, '-').toLowerCase();
   this.style = opt.style || 'normal';
   this.weight = opt.weight || '400';
   this.ext = opt.ext || (/\.(ttf|otf|woff2|woff)$/.exec(this.path) || [])[1] || '';
@@ -110,6 +110,7 @@ xlfont = function(opt){
     this.ext = 'woff';
   }
   this.doMerge = opt.doMerge != null ? opt.doMerge : false;
+  this.useWorker = opt.useWorker != null ? opt.useWorker : false;
   this.css = [];
   this.init = proxise.once(function(){
     return this$._init();
@@ -281,7 +282,7 @@ xlfont.prototype = import$(Object.create(Object.prototype), {
       return Promise.all(ps).then(function(it){
         return xlfMerger({
           bufs: it,
-          useWorker: false
+          useWorker: this$.useWorker
         });
       }).then(function(ab){
         var font, blob;
@@ -449,7 +450,7 @@ xfl = {
   },
   proxy: {},
   update: function(){
-    var css, k, ref$, v, node;
+    var css, k, ref$, v, node, f;
     css = "";
     for (k in ref$ = this.fonts) {
       v = ref$[k];
@@ -459,8 +460,24 @@ xfl = {
       node = document.createElement("style");
       node.textContent = css;
       node.setAttribute('type', 'text/css');
-      return document.body.appendChild(node);
+      document.body.appendChild(node);
     }
+    return Promise.all((function(){
+      var ref$, results$ = [];
+      for (k in ref$ = this.fonts) {
+        f = ref$[k];
+        results$.push(f);
+      }
+      return results$;
+    }.call(this)).map(function(){
+      return document.fonts.load("16px " + v.name);
+    })).then(function(){
+      return new Promise(function(res, rej){
+        return setTimeout(function(){
+          return res();
+        }, 350);
+      });
+    });
     function fn$(it){
       return !it.rendered;
     }

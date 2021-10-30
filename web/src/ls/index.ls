@@ -7,6 +7,8 @@ editor = do
   init: ->
     @ldcv = new ldcover root: document.querySelector('.ldcv')
     @ldld = new ldloader root: document.querySelector('.ldcv .inner .ld')
+    @gldcv = new ldcover root: ld$.find('#gloader', 0)
+    @gld = new ldloader root: ld$.find('#gloader',0), toggler: (v) ~> @gldcv.toggle v
     @svg = document.querySelector('svg')
     @path = document.querySelector('path')
     @textarea = document.querySelector \textarea
@@ -19,13 +21,30 @@ editor = do
       if !p => return
       [font,type,weight] = <[data-font data-type data-weight]>.map -> p.getAttribute it
       if !font => return
-      if type == \en =>
+      @gld.on!
+      promise = if type == \en =>
         xfl.load {path: "#base/#font/normal/#weight.ttf", weight, style: \normal}
           .then ~>
             @font = it
             @sync!
       else @load font, weight
-    @load 'Klee One'
+      promise
+        .then ~>
+          console.log \loaded
+          @gld.off!
+    @gld.on!
+    promise-body = @load 'Klee One'
+    promise-head = xfl.load {path: "#base/SoukouMincho/normal/400"}
+      .then (font) ->
+        headlines = Array.from(document.querySelectorAll 'h1,h2,h3')
+        texts = headlines.map(-> it.innerText).join('')
+        font.sync texts
+          .then -> headlines.map -> it.classList.add font.className
+    Promise.all [promise-head, promise-body]
+      .then ~>
+        console.log \inited.
+        @gld.off!
+
   to-svg: ->
     @ldld.on!
       .then ~> @ldcv.toggle!
@@ -47,7 +66,7 @@ editor = do
       .then (font) ~>
         @font = font
         @font.sync document.body.innerText
-        @sync!
+      .then ~> @sync!
   sync: ->
     if !@font => return
     @font.sync @textarea.value
@@ -56,11 +75,3 @@ editor = do
 
 editor.init!
 
-#xfl.load {path: "#base/KleeOne-SemiBold"}
-
-xfl.load {path: "#base/SoukouMincho/normal/400"}
-  .then (font) ->
-    headlines = Array.from(document.querySelectorAll 'h1,h2,h3')
-    texts = headlines.map(-> it.innerText).join('')
-    font.sync texts
-    headlines.map -> it.classList.add font.className

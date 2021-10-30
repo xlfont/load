@@ -48,6 +48,7 @@ xlfont = (opt = {}) ->
   @name = opt.name or (@path
     .replace(/\.[a-zA-Z0-9]+$/,'')
     .replace(/^https?:\/\/[^/]+\//g,'')
+    .replace(/\s/g, '-')
     .replace(/\//g,'-')
   ).toLowerCase!
   @style = opt.style or \normal
@@ -63,6 +64,7 @@ xlfont = (opt = {}) ->
   @is-xl = !@ext
   if !@ext => @ext = \woff
   @do-merge = if opt.do-merge? => opt.do-merge else false
+  @use-worker = if opt.use-worker? => opt.use-worker else false
   @css = []
   @init = proxise.once ~> @_init!
   @init!
@@ -123,6 +125,7 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
   fetch-all: ->
     if @is-xl => Promise.all([f for k,f of @sub.font].map ~> @_fetch it, true, \woff)
     else @_fetch @sub.font[0], true, \ttf
+
   fetch: (list = [], dofetch = false) ->
     if !@is-xl =>
       if @sub.font.0 and @sub.font.0.blob => return Promise.resolve!
@@ -153,7 +156,7 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
             fr <<< onerror: (-> rej it), onload: (-> res fr.result)
             fr.readAsArrayBuffer font.blob
         Promise.all ps
-          .then -> xlf-merger {bufs: it, use-worker: false}
+          .then ~> xlf-merger {bufs: it, use-worker: @use-worker}
           .then (ab) ->
             if !ab => return subfonts.filter(->!it.need-merge)
             font = subfonts.filter(->it.need-merge).0
@@ -176,6 +179,7 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
             font-weight: #{@weight};
           }"""
         @css.push {content: css}
+
 
   getotf: ->
     if !(opentype?) =>
@@ -251,6 +255,8 @@ xfl = do
       node.textContent = css
       node.setAttribute \type, 'text/css'
       document.body.appendChild node
+    Promise.all([f for k,f of @fonts].map -> document.fonts.load "16px #{v.name}")
+      .then -> new Promise (res, rej) -> setTimeout (->res!), 350
 
   # load font from path. will resolve information from path,
   # if failed to resolve, user can still supply options for alternative information.

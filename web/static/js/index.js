@@ -4,12 +4,21 @@ base = '/assets/fonts';
 base = 'https://xlfont.maketext.io/links';
 editor = {
   init: function(){
-    var this$ = this;
+    var promiseBody, promiseHead, this$ = this;
     this.ldcv = new ldcover({
       root: document.querySelector('.ldcv')
     });
     this.ldld = new ldloader({
       root: document.querySelector('.ldcv .inner .ld')
+    });
+    this.gldcv = new ldcover({
+      root: ld$.find('#gloader', 0)
+    });
+    this.gld = new ldloader({
+      root: ld$.find('#gloader', 0),
+      toggler: function(v){
+        return this$.gldcv.toggle(v);
+      }
     });
     this.svg = document.querySelector('svg');
     this.path = document.querySelector('path');
@@ -18,7 +27,7 @@ editor = {
       return this$.sync();
     });
     document.querySelector('#chooser').addEventListener('click', function(e){
-      var target, p, ref$, font, type, weight;
+      var target, p, ref$, font, type, weight, promise;
       if (!e || !e.target) {
         return;
       }
@@ -36,20 +45,42 @@ editor = {
       if (!font) {
         return;
       }
-      if (type === 'en') {
-        return xfl.load({
+      this$.gld.on();
+      promise = type === 'en'
+        ? xfl.load({
           path: base + "/" + font + "/normal/" + weight + ".ttf",
           weight: weight,
           style: 'normal'
         }).then(function(it){
           this$.font = it;
           return this$.sync();
-        });
-      } else {
-        return this$.load(font, weight);
-      }
+        })
+        : this$.load(font, weight);
+      return promise.then(function(){
+        console.log('loaded');
+        return this$.gld.off();
+      });
     });
-    return this.load('Klee One');
+    this.gld.on();
+    promiseBody = this.load('Klee One');
+    promiseHead = xfl.load({
+      path: base + "/SoukouMincho/normal/400"
+    }).then(function(font){
+      var headlines, texts;
+      headlines = Array.from(document.querySelectorAll('h1,h2,h3'));
+      texts = headlines.map(function(it){
+        return it.innerText;
+      }).join('');
+      return font.sync(texts).then(function(){
+        return headlines.map(function(it){
+          return it.classList.add(font.className);
+        });
+      });
+    });
+    return Promise.all([promiseHead, promiseBody]).then(function(){
+      console.log('inited.');
+      return this$.gld.off();
+    });
   },
   toSvg: function(){
     var this$ = this;
@@ -82,7 +113,8 @@ editor = {
       doMerge: true
     }).then(function(font){
       this$.font = font;
-      this$.font.sync(document.body.innerText);
+      return this$.font.sync(document.body.innerText);
+    }).then(function(){
       return this$.sync();
     });
   },
@@ -96,16 +128,3 @@ editor = {
   }
 };
 editor.init();
-xfl.load({
-  path: base + "/SoukouMincho/normal/400"
-}).then(function(font){
-  var headlines, texts;
-  headlines = Array.from(document.querySelectorAll('h1,h2,h3'));
-  texts = headlines.map(function(it){
-    return it.innerText;
-  }).join('');
-  font.sync(texts);
-  return headlines.map(function(it){
-    return it.classList.add(font.className);
-  });
-});

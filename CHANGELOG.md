@@ -5,6 +5,10 @@
  - support merging font locally by opentype.js
  - support web worker ( TBD )
  - suppoty `style` and `weight` information
+ - wait explicitly until fonts loaded according to document.fonts in `xfl.update`
+ - accept `use-worker` as an option, but still dont enable it
+ - normalize font name if it's derived from url
+ - load xlfont with woff instead of ttf.
 
 
 ## v1.0.13

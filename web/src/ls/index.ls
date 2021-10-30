@@ -50,9 +50,14 @@ editor = do
   to-svg: ->
     @ldld.on!
       .then ~> @ldcv.toggle!
-      .then ~> @font.getotf!
-      .then (otf) ~>
-        path = otf.getPath(@textarea.value.replace(/\s/g,' '), 0, 0, 48)
+      .then ~>
+        @font.get-path text: @textarea.value.replace(\s/g, ' '), x: 0, y: 0, font-size: 48
+        /*
+        .then ~> @font.getotf!
+        .then (otf) ~>
+          path = otf.getPath(@textarea.value.replace(/\s/g,' '), 0, 0, 48)
+        */
+      .then (path) ~>
         box = path.getBoundingBox!
         d = path.toPathData!
         rbox = @svg.getBoundingClientRect!

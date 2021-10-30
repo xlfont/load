@@ -92,10 +92,14 @@ editor = {
     return this.ldld.on().then(function(){
       return this$.ldcv.toggle();
     }).then(function(){
-      return this$.font.getotf();
-    }).then(function(otf){
-      var path, box, d, rbox, x, y;
-      path = otf.getPath(this$.textarea.value.replace(/\s/g, ' '), 0, 0, 48);
+      return this$.font.getPath({
+        text: this$.textarea.value.replace('s/g', ' '),
+        x: 0,
+        y: 0,
+        fontSize: 48
+      });
+    }).then(function(path){
+      var box, d, rbox, x, y;
       box = path.getBoundingBox();
       d = path.toPathData();
       rbox = this$.svg.getBoundingClientRect();

@@ -82,6 +82,14 @@ Font object API:
  - `getotf()`: return a promise, resolved to `opentype.Font` from `opentype.js`.
    - `opentype.js` is required for this method
    - `fetchAll()` will be called by this method.
+ - `getPath(opt)`: return a promise resolving to opentype.js' `Path` object based on opt with following fields:
+   - `text`: text to render. default ''
+   - `x`: x offset of the rendered text. default 0
+   - `y`: y offset of the rendered text. default 0
+   - `fontSize`: size of the rendered text. default 48
+ - `hasChar(c)`: return if code point of the given character `c` is available in this font.
+   - return true / false: available or not available
+   - return undefined: not sure before synced
  - `fetchAll()`: by default `xfl` use CSS to load fonts. `fecthAll()` fetch all subset fonts with JS again.
  - `name`: font name which can be used in CSS `font-family` property.
  - `className`: a CSS class name which its `font-family` is assigned to this font.

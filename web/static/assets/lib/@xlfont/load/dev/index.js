@@ -111,6 +111,7 @@ xlfont = function(opt){
   }
   this.doMerge = opt.doMerge != null ? opt.doMerge : false;
   this.useWorker = opt.useWorker != null ? opt.useWorker : false;
+  this.misschar = {};
   this.css = [];
   this.init = proxise.once(function(){
     return this$._init();
@@ -324,6 +325,33 @@ xlfont.prototype = import$(Object.create(Object.prototype), {
       });
     });
   },
+  hasChar: function(c){
+    return typeof this.misschar[c] === 'undefined'
+      ? undefined
+      : !this.misshcar[c];
+  },
+  getPath: function(opt){
+    var ref$, text, x, y, fontSize, this$ = this;
+    opt == null && (opt = {});
+    ref$ = import$({
+      text: '',
+      x: 0,
+      y: 0,
+      fontSize: 48
+    }, opt), text = ref$.text, x = ref$.x, y = ref$.y, fontSize = ref$.fontSize;
+    return this.sync(text).then(function(){
+      return this$.getotf();
+    }).then(function(otf){
+      var txt, i$, to$, i, path;
+      txt = '';
+      for (i$ = 0, to$ = text.length; i$ < to$; ++i$) {
+        i = i$;
+        txt += !this$.misschar[text[i]] ? text[i] : ' ';
+      }
+      path = otf.getPath(txt, x, y, fontSize);
+      return path;
+    });
+  },
   getotf: function(){
     var this$ = this;
     if (!(typeof opentype != 'undefined' && opentype !== null)) {
@@ -390,15 +418,15 @@ xlfont.prototype = import$(Object.create(Object.prototype), {
     });
   },
   sync: function(txt){
-    var ref$, misschar, missset, this$ = this;
+    var this$ = this;
     txt == null && (txt = "");
     if (!this.isXl) {
       xfl.update();
       return Promise.resolve();
     }
-    ref$ = [{}, {}], misschar = ref$[0], missset = ref$[1];
     return Promise.resolve().then(function(){
-      var i$, to$, i, code, setIdx, k, list, res$;
+      var ref$, misscodes, missset, i$, to$, i, code, setIdx, k, list, res$;
+      ref$ = [{}, {}], misscodes = ref$[0], missset = ref$[1];
       for (i$ = 0, to$ = txt.length; i$ < to$; ++i$) {
         i = i$;
         code = txt.charCodeAt(i);
@@ -406,23 +434,22 @@ xlfont.prototype = import$(Object.create(Object.prototype), {
           continue;
         }
         setIdx = this$.codemap[code.toString(16)];
-        if (!setIdx) {
-          misschar[txt[i]] = true;
-        } else if (!this$.sub.set[setIdx]) {
+        this$.misschar[txt[i]] = misscodes[txt[i]] = !setIdx ? true : false;
+        if (setIdx && !this$.sub.set[setIdx]) {
           this$.sub.set[setIdx] = missset[setIdx] = true;
         }
       }
-      misschar = (function(){
+      misscodes = (function(){
         var results$ = [];
-        for (k in misschar) {
+        for (k in misscodes) {
           results$.push(k);
         }
         return results$;
       }()).filter(function(it){
-        return it.trim();
+        return misscodes[it];
       });
-      if (misschar.length) {
-        console.log("[@plotdb/xfl] sync xl-font with following chars unsupported: " + misschar.join(''));
+      if (misscodes.length) {
+        console.log("[@plotdb/xfl] sync xl-font with following chars unsupported: " + misscodes.join(''));
       }
       res$ = [];
       for (k in missset) {

@@ -65,6 +65,7 @@ xlfont = (opt = {}) ->
   if !@ext => @ext = \woff
   @do-merge = if opt.do-merge? => opt.do-merge else false
   @use-worker = if opt.use-worker? => opt.use-worker else false
+  @misschar = {}
   @css = []
   @init = proxise.once ~> @_init!
   @init!
@@ -180,6 +181,16 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
           }"""
         @css.push {content: css}
 
+  has-char: (c) -> return if typeof(@misschar[c]) == \undefined => undefined else !@misshcar[c]
+  get-path: (opt = {}) ->
+    {text, x, y, font-size} = {text: '', x: 0, y: 0, font-size: 48} <<< opt
+    @sync text
+      .then ~> @getotf!
+      .then (otf) ~>
+        txt = ''
+        for i from 0 til text.length => txt += (if !@misschar[text[i]] => text[i] else ' ')
+        path = otf.getPath txt, x, y, font-size
+        return path
 
   getotf: ->
     if !(opentype?) =>
@@ -214,19 +225,19 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
     if !@is-xl =>
       xfl.update!
       return Promise.resolve!
-    [misschar, missset]= [{}, {}]
     Promise.resolve!
       .then ~>
+        [misscodes, missset]= [{}, {}]
         for i from 0 til txt.length =>
           code = txt.charCodeAt(i)
           if @cjk-only and !xfl.isCJK(code) => continue
           set-idx = @codemap[code.toString 16]
-          if !set-idx => misschar[txt[i]] = true
+          @misschar[txt[i]] = misscodes[txt[i]] = if !set-idx => true else false
           # TODO we should set @sub.set[set-idx] to true only if it's successfully fetched.
-          else if !@sub.set[set-idx] => @sub.set[set-idx] = missset[set-idx] = true
-        misschar := [k for k of misschar].filter(->it.trim!)
-        if misschar.length =>
-          console.log "[@plotdb/xfl] sync xl-font with following chars unsupported: #{misschar.join('')}"
+          if set-idx and !@sub.set[set-idx] => @sub.set[set-idx] = missset[set-idx] = true
+        misscodes = [k for k of misscodes].filter(->misscodes[it])
+        if misscodes.length =>
+          console.log "[@plotdb/xfl] sync xl-font with following chars unsupported: #{misscodes.join('')}"
         list = [k for k of missset]
         if list.length => @fetch list
       .then -> xfl.update!

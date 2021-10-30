@@ -9,6 +9,8 @@
  - accept `use-worker` as an option, but still dont enable it
  - normalize font name if it's derived from url
  - load xlfont with woff instead of ttf.
+ - support `hasChar(c)` and `getPath(opt)` methods natively
+ - let misschar also keep tracks of supported char (by setting it to false)
 
 
 ## v1.0.13

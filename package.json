@@ -39,6 +39,7 @@
     "@loadingio/debounce.js": "^0.0.1",
     "@loadingio/ldquery": "^2.2.1",
     "@loadingio/loading.css": "^2.0.1",
+    "@zbryikt/deploy": "^0.0.1",
     "@zbryikt/template": "^2.3.22",
     "bootstrap": "^4.5.3",
     "bootstrap.native": "^3.0.13",

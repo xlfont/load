@@ -190,21 +190,21 @@ html
     p 可以！此專案連同編譯程式碼一同釋出，可自動編譯切割指定之字型檔。
     br
     h2 我要怎麼取得跟使用？
-    p 此專案託管於 #[a(href="https://github.com/plotdb/xfl") Github 專案庫] ，你可以造訪該網址並利用 Git 分支，或者直接下載整包模組。
+    p 此專案託管於 #[a(href="https://github.com/xlfont/load") Github 專案庫] ，你可以造訪該網址並利用 Git 分支，或者直接下載整包模組。
     p 你亦可使用 #[code npm]：
     pre.code.
       npm install --save @xlfont/load
       npx xfl -o [out-dir] [font-dir] # 字型切割工具
-    p 前端字型載入器則引入 #[code dist/xfl.js] 後使用：
+    p 前端字型載入器則引入 #[code dist/index.js] 後使用：
     pre.code.
-      &lt;script src="path-to/xfl.js"&gt;&lt;/script&gt;
+      &lt;script src="path-to-dist/index.js"&gt;&lt;/script&gt;
       &lt;script&gt;
-        xfl.load({path: "path-to/xl-font-folder"})
+        xfl.load({path: "path-to-dist/xl-font-folder"})
           .then(function(font) {
-            font.sync("給定一些文字，xfl 就會幫你抓對應的字型檔");
+            font.sync("給定一些文字，@xlfont/load 就會幫你抓對應的字型檔");
           });
       &lt;/script&gt;
-    p 詳細的文件請參照 #[a(href="https://github.com/plotdb/xfl/blob/master/README.md") Github 專案庫中的 README.md 文件]。
+    p 詳細的文件請參照 #[a(href="https://github.com/@xlfont/load/blob/master/README.md") Github 專案庫中的 README.md 文件]。
 
     br
     h3 與其它的網路字型服務比較？
@@ -217,17 +217,17 @@ html
     p 此外靜態字型子集較動態生成的字型檔來說在快取上較有優勢。若預期字型檔不會頻繁更新，可以設定較長的快取週期，並可搭配 Cloudflare 等 CDN 服務，可以獲得更快速的內容發送以及更少的流量負擔。
     br
     h3 何不使用 unicode-range 機制來做前端載入就好？
-    p: :md xfl.js 的確使用 `@font-family` 來設定字型子集的資訊，只是因為 `@font-family` 樣式是依字碼做動態生成，因此需要前端程式來做。而因為 `@xlfont/load` 的子集依字頻而非語言分組，若想完全依賴 `unicode-range` 來描述各字碼對應之字型子集，需要表列相當大量的字碼。當然這仍然是一個可行的方式，我們可以考慮在未來版本支援無 JS 版的 xlfont 載入。
+    p: :md `@xlfont/load` 的確使用 `@font-family` 來設定字型子集的資訊，只是因為 `@font-family` 樣式是依字碼做動態生成，因此需要前端程式來做。而因為 `@xlfont/load` 的子集依字頻而非語言分組，若想完全依賴 `unicode-range` 來描述各字碼對應之字型子集，需要表列相當大量的字碼。當然這仍然是一個可行的方式，我們可以考慮在未來版本支援無 JS 版的 xlfont 載入。
     p: :md 此外，`@xlfont/load` 仍基於 `opentype.js` 提供前端字型組合的機制，可用於根據子集繪制對應的向量檔。
     br
 
     h3 換字型會閃 / 打字會閃 / 載入還是很久 / 字型有缺字
-    p 以靜態方式實作網路字型仍然受限於瀏覽器技術，但若有任何問題，都可以在 #[a(href="https://github.com/plotdb/xfl/issues") Github Issues] 中提出。
+    p 以靜態方式實作網路字型仍然受限於瀏覽器技術，但若有任何問題，都可以在 #[a(href="https://github.com/xlfont/load/issues") Github Issues] 中提出。
     br
     hr
     #footer
       div source code copyrighted #[a(href="https://twitter.com/zbryikt") @zbryikt] released under MIT License
-      div source in #[a(href="https://github.com/xlfont/load") Github Repo] / font files in #[a(href="https://github.com/xlfont/cjk") Another Github Repo]
+      div source in #[a(href="https://github.com/xlfont/load") Github Repo] / font files in #[a(href="https://github.com/xlfont") Another Github Repo]
 
     +script("assets/lib/bootstrap.native/main/bootstrap-native-v4.min.js")
     +script("assets/lib/@loadingio/ldquery/main/ldq.min.js")
@@ -236,5 +236,5 @@ html
     +script("assets/lib/ldloader/main/index.min.js")
     +script("assets/lib/proxise/main/proxise.min.js")
     +script("assets/lib/@plotdb/opentype.js/main/opentype.js")
-    +script("assets/lib/@xlfont/load/dev/xfl.js")
+    +script("assets/lib/@xlfont/load/dev/index.js")
     +script("js/index.js")

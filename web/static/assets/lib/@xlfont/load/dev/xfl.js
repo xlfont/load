@@ -9,12 +9,13 @@ xlfWorker = {
   key: 0,
   worker: null,
   queue: [],
-  init: function(){
+  init: function(opt){
     var this$ = this;
+    opt == null && (opt = {});
     if (this.worker) {
       return;
     }
-    this.worker = new Worker("/assets/lib/@xlfont/load/dev/worker.min.js");
+    this.worker = new Worker(opt.url || "worker.min.js");
     return this.worker.onmessage = function(e){
       var ref$, buf, key, item;
       ref$ = e.data, buf = ref$.buf, key = ref$.key;
@@ -27,11 +28,11 @@ xlfWorker = {
       return item.res(buf);
     };
   },
-  run: function(abs){
+  run: function(abs, opt){
     var this$ = this;
     return new Promise(function(res, rej){
       var item;
-      this$.init();
+      this$.init(opt);
       this$.queue.push(item = {
         res: res,
         rej: rej,
@@ -39,7 +40,8 @@ xlfWorker = {
       });
       return this$.worker.postMessage({
         bufs: abs,
-        key: item.key
+        key: item.key,
+        lib: opt.opentype
       });
     });
   }
@@ -51,10 +53,7 @@ xlfMerger = function(arg$){
     return Promise.resolve();
   }
   if (useWorker) {
-    return console.error("[@xlfont/load] worker is not yet supported.");
-  }
-  if (useWorker) {
-    return xlfWorker.run(bufs);
+    return xlfWorker.run(bufs, useWorker);
   }
   return Promise.resolve().then(function(){
     return bufs.map(function(it){
@@ -105,7 +104,9 @@ xlfont = function(opt){
     this.format = "format('" + this.format + "')";
   }
   this.className = "xfl-" + (this.name || '').replace(/\s+/g, '_') + "-" + Math.random().toString(36).substring(2);
-  this.isXl = !this.ext;
+  this.isXl = opt.isXl != null
+    ? opt.isXl
+    : !this.ext;
   if (!this.ext) {
     this.ext = 'woff';
   }

@@ -1,8 +1,12 @@
-var onmessage;
-importScripts("/assets/lib/@plotdb/opentype.js/main/opentype.js");
+var local, onmessage;
+local = {};
 onmessage = function(e){
-  var ref$, bufs, key;
-  ref$ = e.data || {}, bufs = ref$.bufs, key = ref$.key;
+  var ref$, bufs, key, opentypeUrl;
+  ref$ = e.data || {}, bufs = ref$.bufs, key = ref$.key, opentypeUrl = ref$.opentypeUrl;
+  if (!local.inited) {
+    importScripts(opentypeUrl || "opentype.js");
+    local.inited = true;
+  }
   return Promise.resolve().then(function(){
     return bufs.map(function(it){
       return opentype.parse(it);

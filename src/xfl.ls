@@ -4,25 +4,24 @@ xlf-worker =
   key: 0
   worker: null
   queue: []
-  init: ->
+  init: (opt = {}) ->
     if @worker => return
-    @worker = new Worker("/assets/lib/@xlfont/load/dev/worker.min.js")
+    @worker = new Worker(opt.url or "worker.min.js")
     @worker.onmessage = (e) ~>
       {buf,key} = e.data
       if !(item = @queue.filter((q) -> key == q.key).0) => return
       @queue.splice @queue.indexOf(item), 1
       item.res buf
-  run: (abs) ->
+  run: (abs, opt) ->
     (res, rej) <~ new Promise _
-    @init!
+    @init opt
     @queue.push item = {res, rej, key: (@key++)}
-    @worker.postMessage {bufs: abs, key: item.key}
+    @worker.postMessage {bufs: abs, key: item.key, lib: opt.opentype}
 
 xlf-merger = ({bufs, use-worker}) ->
   if !bufs.length => return Promise.resolve!
   # dont enable worker for now
-  if use-worker => return console.error "[@xlfont/load] worker is not yet supported."
-  if use-worker => return xlf-worker.run bufs
+  if use-worker => return xlf-worker.run bufs, use-worker
   Promise.resolve!
     .then -> bufs.map -> opentype.parse it
     .then (fonts) ->
@@ -61,7 +60,7 @@ xlfont = (opt = {}) ->
   else ''
   if @format => @format = "format('#{@format}')"
   @className = "xfl-#{(@name or '').replace(/\s+/g,'_')}-#{Math.random!toString(36)substring(2)}"
-  @is-xl = !@ext
+  @is-xl = if opt.is-xl? => opt.is-xl else !@ext
   if !@ext => @ext = \woff
   @do-merge = if opt.do-merge? => opt.do-merge else false
   @use-worker = if opt.use-worker? => opt.use-worker else false

@@ -7,12 +7,16 @@ editor = do
   init: ->
     @ldcv = new ldcover root: document.querySelector('.ldcv')
     @ldld = new ldloader root: document.querySelector('.ldcv .inner .ld')
-    @gldcv = new ldcover root: ld$.find('#gloader', 0)
+    @gldcv = new ldcover root: ld$.find('#gloader', 0), lock: true
     @gld = new ldloader root: ld$.find('#gloader',0), toggler: (v) ~> @gldcv.toggle v
     @svg = document.querySelector('svg')
     @path = document.querySelector('path')
     @textarea = document.querySelector \textarea
     @textarea.addEventListener \keyup, ~> @sync!
+    @worker-cfg = {use-worker: {
+      url: '/assets/lib/@xlfont/load/dev/worker.min.js'
+      opentype-url: '/assets/lib/@plotdb/opentype.js/main/opentype.min.js'
+    }}
     document.querySelector \#chooser .addEventListener \click, (e) ~>
       if !e or !e.target => return
       target = e.target.getAttribute(\data-target)
@@ -25,7 +29,7 @@ editor = do
       debounce 350
         .then ~>
           if type != \en => return @load font, weight
-          xfl.load {path: "#base/#font/normal/#weight.ttf", weight, style: \normal}
+          xfl.load({path: "#base/#font/normal/#weight.ttf", weight, style: \normal} <<< @worker-cfg)
             .then ~>
               @font = it
               @sync!
@@ -69,7 +73,7 @@ editor = do
 
 
   load: (font, weight = 400, style = \normal) ->
-    xfl.load {path: "#base/#font/#style/#weight", weight, style, do-merge: true}
+    xfl.load({path: "#base/#font/#style/#weight", weight, style, do-merge: true} <<< @worker-cfg)
       .then (font) ~>
         @font = font
         @font.sync document.body.innerText

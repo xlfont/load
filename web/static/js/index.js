@@ -12,7 +12,8 @@ editor = {
       root: document.querySelector('.ldcv .inner .ld')
     });
     this.gldcv = new ldcover({
-      root: ld$.find('#gloader', 0)
+      root: ld$.find('#gloader', 0),
+      lock: true
     });
     this.gld = new ldloader({
       root: ld$.find('#gloader', 0),
@@ -26,6 +27,12 @@ editor = {
     this.textarea.addEventListener('keyup', function(){
       return this$.sync();
     });
+    this.workerCfg = {
+      useWorker: {
+        url: '/assets/lib/@xlfont/load/dev/worker.min.js',
+        opentypeUrl: '/assets/lib/@plotdb/opentype.js/main/opentype.min.js'
+      }
+    };
     document.querySelector('#chooser').addEventListener('click', function(e){
       var target, p, ref$, font, type, weight;
       if (!e || !e.target) {
@@ -50,11 +57,11 @@ editor = {
         if (type !== 'en') {
           return this$.load(font, weight);
         }
-        return xfl.load({
+        return xfl.load(import$({
           path: base + "/" + font + "/normal/" + weight + ".ttf",
           weight: weight,
           style: 'normal'
-        }).then(function(it){
+        }, this$.workerCfg)).then(function(it){
           this$.font = it;
           return this$.sync();
         });
@@ -115,12 +122,12 @@ editor = {
     var this$ = this;
     weight == null && (weight = 400);
     style == null && (style = 'normal');
-    return xfl.load({
+    return xfl.load(import$({
       path: base + "/" + font + "/" + style + "/" + weight,
       weight: weight,
       style: style,
       doMerge: true
-    }).then(function(font){
+    }, this.workerCfg)).then(function(font){
       this$.font = font;
       return this$.font.sync(document.body.innerText);
     }).then(function(){
@@ -137,3 +144,8 @@ editor = {
   }
 };
 editor.init();
+function import$(obj, src){
+  var own = {}.hasOwnProperty;
+  for (var key in src) if (own.call(src, key)) obj[key] = src[key];
+  return obj;
+}

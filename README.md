@@ -15,7 +15,7 @@ This is a javascript project based on nodeJS / npm. After installing node / npm,
     npm install --save @xlfont/load
 
 
-## xl-font subsetting generator
+## xlfont subsetting generator
 
 use `npx xfl` to subset fonts with `xfl`:
 
@@ -54,7 +54,7 @@ Generally speaking, the steps of font subsetting by `xfl` are as following:
  - dump unicode / subset mapping to `charmap.txt`. also keep the original font as `all.ttf`.
 
 
-## xl-font subset loader
+## xlfont subset loader
 
 include the locally installed dist files or from cdn:
 
@@ -74,8 +74,35 @@ Sync font based on given text:
     });
 
 
+## xfl API
 
-Font object API:
+ - `load(opt)`: load specified font. cache used fonts to save bandwidth and memory.
+   - `opt` can either be:
+     - a string to the specified font, or object as option
+     - an object passed directly to `xlfont` constructor.
+   - return a promise resolving to a `xlfont` object.
+ - `update()`: refresh necessary CSS in document to reflect font status changes.
+
+
+## xlfont Constructor
+
+Besides loading from `xfl.load`, you can also manually construct a `xlfont` object. `xlfont` is the interface to accessing specific font ( including normal font or subsetted xlfont ), with constructor options as below:
+
+ - `path`: path to font.
+ - `ext`: optional. font file extension ( `ttf`, `woff`, etc )
+   - if omitted, calculated from `path`.
+   - if not available ( either in `ext` or `path` ), default to `woff` and consider this font as a xlfont.
+ - `name`: font name. if omitted, use normalized `path` as font name.
+ - `isXl`: true if this is a xlfont. if omitted, decided by `ext`. 
+ - `doMerge`: should subsetted merged by frontend JS before using to enhacen UX. default false
+ - `useWorker`: use web worker for font merging. default false. When specified, can be an object with following:
+   - `url`: worker js url
+   - `opentype-url`: required `opentype.js` url.
+ - `style`: font style ( e.g., `normal`, `italic` ). default `normal`.
+ - `weight`: font weight ( e.g., `400`, `500`, etc ). default `400`.
+
+
+## xlfont Object API
 
  - `init()`: init this font object. `xfl.load` will do this job for you.
  - `sync(text)`: load fonts based on given text.
@@ -95,12 +122,11 @@ Font object API:
  - `className`: a CSS class name which its `font-family` is assigned to this font.
 
 
-## availabel xl-fonts
+## availabel xlfonts
 
-While this is a tool for composing and using xl-font, we also prepare a set of xl-fonts so you can use them directly with `xfl.js`. All fonts are released under `SIL-Open Font License 1.1` or similar open licenses. Checkout the following repo for more information:
+While this is a tool for composing and using xlfont, we also prepare a set of xlfonts so you can use them directly with `xfl.js`. All fonts are released under `SIL-Open Font License 1.1` or similar open licenses. Checkout repo list of the Github organization of `@xlfont` for more information:
 
-    https://github.com/xlfont/cjk/
-
+    https://github.com/xlfont/
 
 
 ## Todo
@@ -123,9 +149,10 @@ While this is a tool for composing and using xl-font, we also prepare a set of x
    - parsed from content of `https://www.ling.upenn.edu/courses/Spring_2003/ling538/UnicodeRanges.html`
    - content of the above link is from `http://www.unicode.org/charts/`
 
+
 ## Font Subsetting Consideration
 
-According to *[SIL's OFL FAQ](https://scripts.sil.org/cms/scripts/page.php?item_id=OFL-FAQ_web#b4b7db21)* and *[Web Fonts and Reserved Font Names](https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL_web_fonts_and_RFNs#33301a9c)*, Subsetting a font is considered *modification* of that font. This is permitted by *Open Font License (OFL)*, but OFL requires that modified versions must not use RFNs (Reserved Font Names) without separate permission.
+According to [*SIL's OFL FAQ*](https://scripts.sil.org/cms/scripts/page.php?item_id=OFL-FAQ_web#b4b7db21) and [*Web Fonts and Reserved Font Names*](https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL_web_fonts_and_RFNs#33301a9c), Subsetting a font is considered *modification* of that font. This is permitted by *Open Font License (OFL)*, but OFL requires that modified versions must not use RFNs (Reserved Font Names) without separate permission.
 
 However, once FE (Functional Equivalence) is preserved, then it's very likely that the original author would feel that the optimized font is a good and reasonable equivalent, and that the main purposes of the RFN mechanism - avoids collisions, protects authors. minimizes support, encourages derivatives - continue to be met.
 

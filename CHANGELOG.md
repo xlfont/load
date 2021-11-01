@@ -1,5 +1,10 @@
 # Change Logs
 
+## v1.1.1
+
+ - correctly support web worker by accepting options for worker and dependency url
+
+
 ## v1.1.0
 
  - support merging font locally by opentype.js

@@ -1,7 +1,9 @@
-importScripts("/assets/lib/@plotdb/opentype.js/main/opentype.js")
-
+local = {}
 onmessage = (e) ->
-  {bufs, key} = e.data or {}
+  {bufs, key, opentype-url} = e.data or {}
+  if !local.inited =>
+    importScripts(opentype-url or "opentype.js")
+    local.inited = true
   Promise.resolve!
     .then -> bufs.map -> opentype.parse it
     .then (fonts) ->

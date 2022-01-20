@@ -58,7 +58,7 @@ Generally speaking, the steps of font subsetting by `xfl` are as following:
 
 include the locally installed dist files or from cdn:
 
-    <script src="path-to/xfl.js"></script>
+    <script src="path-to/xfl-js"></script>
 
 
 Then, load desired font:

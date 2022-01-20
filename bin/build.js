@@ -7,7 +7,7 @@
   opentype = require('@plotdb/opentype.js');
   yargs = require('yargs');
   path = require('path');
-  colors = require('colors');
+  colors = require('@plotdb/colors');
   progress = require('progress');
   ttf2woff2 = require('ttf2woff2');
   ttf2woff = require('ttf2woff');

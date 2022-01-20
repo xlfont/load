@@ -5,18 +5,23 @@ xlf-worker =
   worker: null
   queue: []
   init: (opt = {}) ->
+    <~ Promise.resolve!then _
     if @worker => return
-    @worker = new Worker(opt.url or "worker.min.js")
+    url = URL.createObjectURL(new Blob([xlf-worker-code], {type: 'text/javascript'}))
+    @worker = new Worker url
+    URL.revokeObjectURL url
     @worker.onmessage = (e) ~>
       {buf,key} = e.data
       if !(item = @queue.filter((q) -> key == q.key).0) => return
       @queue.splice @queue.indexOf(item), 1
       item.res buf
+
   run: (abs, opt) ->
     (res, rej) <~ new Promise _
     @init opt
-    @queue.push item = {res, rej, key: (@key++)}
-    @worker.postMessage {bufs: abs, key: item.key, lib: opt.opentype}
+      .then ~>
+        @queue.push item = {res, rej, key: (@key++)}
+        @worker.postMessage {bufs: abs, key: item.key, lib: opt.opentype-url}
 
 xlf-merger = ({bufs, use-worker}) ->
   if !bufs.length => return Promise.resolve!

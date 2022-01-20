@@ -1,5 +1,16 @@
 # Change Logs
 
+## v2.0.0
+
+ - remove deprecated `xfl.js` and `xfl.min.js`
+ - further minimize generated js file with mangling and compression
+ - update `main`, add `browser` field in `package.json`.
+ - upgrade modules
+ - patch test code to make it work with upgraded modules
+ - fix bug: opentype-url doesn't work
+ - use Object URL for worker loading so we don't have to specify its path by ourselves
+
+
 ## v1.1.1
 
  - correctly support web worker by accepting options for worker and dependency url

@@ -96,8 +96,9 @@ Besides loading from `xfl.load`, you can also manually construct a `xlfont` obje
  - `isXl`: true if this is a xlfont. if omitted, decided by `ext`. 
  - `doMerge`: should subsetted merged by frontend JS before using to enhacen UX. default false
  - `useWorker`: use web worker for font merging. default false. When specified, can be an object with following:
-   - `url`: worker js url
    - `opentype-url`: required `opentype.js` url.
+      - context of worker is in Object URL, so relative URL is not support.
+      - use `document.location` to prevent from hardcoding domain.
  - `style`: font style ( e.g., `normal`, `italic` ). default `normal`.
  - `weight`: font weight ( e.g., `400`, `500`, etc ). default `400`.
 

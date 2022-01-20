@@ -6,15 +6,15 @@ mkdir -p dist
 rm -rf bin
 mkdir -p bin
 
-echo "building src/worker.ls -> dist/worker.js ..."
 # use -b otherwise worker wont work
+echo "building src/worker.ls -> dist/worker.js ..."
 ./node_modules/.bin/lsc -cpb --no-header src/worker.ls > dist/worker.js
 echo "minify dist/worker.js -> dist/worker.min.js ..."
 ./node_modules/.bin/uglifyjs dist/worker.js -m -c > dist/worker.min.js
 
-echo "building src/xfl.ls -> dist/index.js ..."
-./node_modules/.bin/lsc -cpb --no-header src/xfl.ls > dist/index.js
-echo "minify dist/index.js -> dist/index.min.js ..."
+echo -n "(function() { var xlfWorkerCode = '`cat dist/worker.min.js`'; " > dist/index.js
+./node_modules/.bin/lsc -cpb --no-header src/xfl.ls >> dist/index.js
+echo "}());" >> dist/index.js
 ./node_modules/.bin/uglifyjs dist/index.js -m -c > dist/index.min.js
 
 echo "building build.ls -> bin/build.js ..."

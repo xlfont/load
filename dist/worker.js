@@ -1,10 +1,11 @@
 var local, onmessage;
 local = {};
 onmessage = function(e){
-  var ref$, bufs, key, opentypeUrl;
-  ref$ = e.data || {}, bufs = ref$.bufs, key = ref$.key, opentypeUrl = ref$.opentypeUrl;
+  var ref$, bufs, key, lib;
+  ref$ = e.data || {}, bufs = ref$.bufs, key = ref$.key, lib = ref$.lib;
   if (!local.inited) {
-    importScripts(opentypeUrl || "opentype.js");
+    console.log(lib);
+    importScripts(lib || "opentype.js");
     local.inited = true;
   }
   return Promise.resolve().then(function(){

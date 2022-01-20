@@ -1,8 +1,8 @@
 local = {}
 onmessage = (e) ->
-  {bufs, key, opentype-url} = e.data or {}
+  {bufs, key, lib} = e.data or {}
   if !local.inited =>
-    importScripts(opentype-url or "opentype.js")
+    importScripts(lib or "opentype.js")
     local.inited = true
   Promise.resolve!
     .then -> bufs.map -> opentype.parse it

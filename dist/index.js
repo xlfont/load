@@ -1,4 +1,4 @@
-var err, xlfWorker, xlfMerger, xlfont, xfl;
+(function() { var xlfWorkerCode = 'var local={},onmessage=function(e){var e=e.data||{},n=e.bufs,p=e.key,e=e.lib;return local.inited||(console.log(e),importScripts(e||"opentype.js"),local.inited=!0),Promise.resolve().then(function(){return n.map(function(e){return opentype.parse(e)})}).then(function(e){for(var n,t,r,s,o,a=[],l=0,i=e.length;l<i;++l)for(t=0,r=(n=e[l]).glyphs.length;t<r;++t)s=t,a.push(n.glyphs.glyphs[s]);return n=e[0],o=new opentype.Font(((o={glyphs:a,familyName:n.names.fontFamily.en,styleName:n.names.fontSubfamily.en}).unitsPerEm=n.unitsPerEm,o.ascender=n.ascender,o.descender=n.descender,o)),postMessage({buf:o.toArrayBuffer(),key:p})})};'; var err, xlfWorker, xlfMerger, xlfont, xfl;
 err = function(e){
   e == null && (e = {});
   return import$(new Error(), import$({
@@ -12,36 +12,45 @@ xlfWorker = {
   init: function(opt){
     var this$ = this;
     opt == null && (opt = {});
-    if (this.worker) {
-      return;
-    }
-    this.worker = new Worker(opt.url || "worker.min.js");
-    return this.worker.onmessage = function(e){
-      var ref$, buf, key, item;
-      ref$ = e.data, buf = ref$.buf, key = ref$.key;
-      if (!(item = this$.queue.filter(function(q){
-        return key === q.key;
-      })[0])) {
+    return Promise.resolve().then(function(){
+      var url;
+      if (this$.worker) {
         return;
       }
-      this$.queue.splice(this$.queue.indexOf(item), 1);
-      return item.res(buf);
-    };
+      url = URL.createObjectURL(new Blob([xlfWorkerCode], {
+        type: 'text/javascript'
+      }));
+      this$.worker = new Worker(url);
+      URL.revokeObjectURL(url);
+      return this$.worker.onmessage = function(e){
+        var ref$, buf, key, item;
+        ref$ = e.data, buf = ref$.buf, key = ref$.key;
+        if (!(item = this$.queue.filter(function(q){
+          return key === q.key;
+        })[0])) {
+          return;
+        }
+        this$.queue.splice(this$.queue.indexOf(item), 1);
+        return item.res(buf);
+      };
+    });
   },
   run: function(abs, opt){
     var this$ = this;
     return new Promise(function(res, rej){
-      var item;
-      this$.init(opt);
-      this$.queue.push(item = {
-        res: res,
-        rej: rej,
-        key: this$.key++
-      });
-      return this$.worker.postMessage({
-        bufs: abs,
-        key: item.key,
-        lib: opt.opentype
+      return this$.init(opt).then(function(){
+        var item;
+        this$.queue.push(item = {
+          res: res,
+          rej: rej,
+          key: this$.key++
+        });
+        console.log(">", opt);
+        return this$.worker.postMessage({
+          bufs: abs,
+          key: item.key,
+          lib: opt.opentypeUrl
+        });
       });
     });
   }
@@ -578,3 +587,4 @@ function import$(obj, src){
   for (var key in src) if (own.call(src, key)) obj[key] = src[key];
   return obj;
 }
+}());

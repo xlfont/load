@@ -3,7 +3,7 @@
   var fs, path, colors, yargs, opentype, lib, allRanges, argv, file, all, multiline;
   fs = require('fs');
   path = require('path');
-  colors = require('colors');
+  colors = require('@plotdb/colors');
   yargs = require('yargs');
   opentype = require('@plotdb/opentype.js');
   lib = path.dirname(fs.realpathSync(__filename));

@@ -1,4 +1,4 @@
-require! <[fs path colors yargs @plotdb/opentype.js]>
+require! <[fs path @plotdb/colors yargs @plotdb/opentype.js]>
 
 lib = path.dirname fs.realpathSync __filename
 all-ranges = JSON.parse( fs.read-file-sync path.join(lib, '..', 'tool', 'data', 'unicode-ranges.json') .toString! )

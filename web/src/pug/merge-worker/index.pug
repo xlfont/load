@@ -1,12 +1,12 @@
 doctype html
 html
-  include @/@loadingio/bootstrap.ext/dist/index.pug
+  include @/@loadingio/bootstrap.ext/index.pug
   head
     base(href="/")
-    +css("assets/lib/bootstrap/main/css/bootstrap.min.css")
+    +css("assets/lib/bootstrap/main/dist/css/bootstrap.min.css")
     +css("assets/lib/@loadingio/bootstrap.ext/main/index.min.css")
     +css("assets/lib/ldloader/main/index.min.css")
-    +css("assets/lib/ldbutton/main/ldbtn.min.css")
+    +css("assets/lib/ldbutton/main/index.min.css")
     +css("assets/lib/@loadingio/loading.css/main/loading.min.css")
     +css("assets/lib/ldcover/main/index.min.css")
   body.ld-over-full-inverse.running
@@ -112,11 +112,11 @@ html
         酥皮蘋果派/
 
 
-    +script("assets/lib/bootstrap.native/main/bootstrap-native-v4.min.js")
-    +script("assets/lib/@loadingio/ldquery/main/ldq.min.js")
+    +script("assets/lib/bootstrap.native/main/dist/bootstrap-native-v4.min.js")
+    +script("assets/lib/@loadingio/ldquery/main/index.min.js")
     +script("assets/lib/ldcover/main/index.min.js")
     +script("assets/lib/ldloader/main/index.min.js")
-    +script("assets/lib/proxise/main/proxise.min.js")
-    +script("assets/lib/@plotdb/opentype.js/main/opentype.js")
-    +script("assets/lib/@xlfont/load/dev/xfl.js")
-    script: include:lsc index.ls
+    +script("assets/lib/proxise/main/index.min.js")
+    +script("assets/lib/@plotdb/opentype.js/main/dist/opentype.js")
+    +script("assets/lib/@xlfont/load/dev/index.min.js")
+    script(type="module"): include:lsc index.ls

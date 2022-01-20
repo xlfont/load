@@ -1,5 +1,5 @@
 doctype html
-include @/@loadingio/bootstrap.ext/dist/index.pug
+include @/@loadingio/bootstrap.ext/index.pug
 -
   var fontlist = [
     ["Fontworks"],
@@ -107,10 +107,10 @@ html
     meta(property="article:author",content="zbryikt")
     meta(property="article:section",content="Taiwan")
     meta(name="keywords",content="webfont,font loader,cjk")
-    +css("assets/lib/bootstrap/main/css/bootstrap.min.css")
+    +css("assets/lib/bootstrap/main/dist/css/bootstrap.min.css")
     +css("assets/lib/@loadingio/bootstrap.ext/main/index.min.css")
     +css("assets/lib/ldloader/main/index.min.css")
-    +css("assets/lib/ldbutton/main/ldbtn.min.css")
+    +css("assets/lib/ldbutton/main/index.min.css")
     +css("assets/lib/@loadingio/loading.css/main/loading.min.css")
     +css("assets/lib/ldcover/main/index.min.css")
     +css("css/index.css")
@@ -229,12 +229,12 @@ html
       div source code copyrighted #[a(href="https://twitter.com/zbryikt") @zbryikt] released under MIT License
       div source in #[a(href="https://github.com/xlfont/load") Github Repo] / font files in #[a(href="https://github.com/xlfont") Another Github Repo]
 
-    +script("assets/lib/bootstrap.native/main/bootstrap-native-v4.min.js")
-    +script("assets/lib/@loadingio/ldquery/main/ldq.min.js")
-    +script("assets/lib/@loadingio/debounce.js/main/debounce.min.js")
+    +script("assets/lib/bootstrap.native/main/dist/bootstrap-native-v4.min.js")
+    +script("assets/lib/@loadingio/ldquery/main/index.min.js")
+    +script("assets/lib/@loadingio/debounce.js/main/index.min.js")
     +script("assets/lib/ldcover/main/index.min.js")
     +script("assets/lib/ldloader/main/index.min.js")
-    +script("assets/lib/proxise/main/proxise.min.js")
-    +script("assets/lib/@plotdb/opentype.js/main/opentype.js")
-    +script("assets/lib/@xlfont/load/dev/index.js")
+    +script("assets/lib/proxise/main/index.min.js")
+    +script("assets/lib/@plotdb/opentype.js/main/dist/opentype.js")
+    +script("assets/lib/@xlfont/load/dev/index.min.js")
     +script("js/index.js")

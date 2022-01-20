@@ -4,7 +4,7 @@ base = '/assets/fonts';
 base = 'https://xlfont.maketext.io/links';
 editor = {
   init: function(){
-    var this$ = this;
+    var siteroot, this$ = this;
     this.ldcv = new ldcover({
       root: document.querySelector('.ldcv')
     });
@@ -27,10 +27,11 @@ editor = {
     this.textarea.addEventListener('keyup', function(){
       return this$.sync();
     });
+    siteroot = document.location.protocol + "//" + document.location.host;
     this.workerCfg = {
       useWorker: {
         url: '/assets/lib/@xlfont/load/dev/worker.min.js',
-        opentypeUrl: '/assets/lib/@plotdb/opentype.js/main/opentype.min.js'
+        opentypeUrl: siteroot + "/assets/lib/@plotdb/opentype.js/main/dist/opentype.min.js"
       }
     };
     document.querySelector('#chooser').addEventListener('click', function(e){

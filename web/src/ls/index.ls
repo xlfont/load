@@ -13,9 +13,12 @@ editor = do
     @path = document.querySelector('path')
     @textarea = document.querySelector \textarea
     @textarea.addEventListener \keyup, ~> @sync!
+    siteroot = "#{document.location.protocol}//#{document.location.host}"
     @worker-cfg = {use-worker: {
       url: '/assets/lib/@xlfont/load/dev/worker.min.js'
-      opentype-url: '/assets/lib/@plotdb/opentype.js/main/opentype.min.js'
+      opentype-url: "#siteroot/assets/lib/@plotdb/opentype.js/main/dist/opentype.min.js"
+      # or alternatively,
+      # opentype-url: 'https://cdn.jsdelivr.net/npm/@plotdb/opentype.js@1.3.5/dist/opentype.min.js'
     }}
     document.querySelector \#chooser .addEventListener \click, (e) ~>
       if !e or !e.target => return

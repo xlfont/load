@@ -1,5 +1,10 @@
 # Change Logs
 
+## v2.0.1
+
+ - publish module with files under `dist` in root too.
+
+
 ## v2.0.0
 
  - remove deprecated `xfl.js` and `xfl.min.js`

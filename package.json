@@ -3,13 +3,14 @@
   "name": "@xlfont/load",
   "license": "MIT",
   "description": "XL font generator and loader",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "browser": "dist/index.min.js",
   "main": "dist/index.min.js",
   "homepage": "https://github.com/xlfont/load",
   "files": [
     "dist/**/*",
-    "tool/data/*"
+    "tool/data/*",
+    "bin/**/*"
   ],
   "repository": {
     "type": "git",
@@ -27,8 +28,8 @@
     "xfl-meta": "./bin/meta.js"
   },
   "dependencies": {
-    "@plotdb/opentype.js": "^1.3.5",
     "@plotdb/colors": "^0.0.1",
+    "@plotdb/opentype.js": "^1.3.5",
     "fs-extra": "^9.1.0",
     "progress": "^2.0.3",
     "ttf2woff": "^2.0.2",
@@ -44,7 +45,8 @@
     "@zbryikt/template": "^2.3.33",
     "bootstrap": "^4.5.3",
     "bootstrap.native": "^3.0.13",
-    "fedep": "^1.1.0",
+    "fedep": "^1.1.1",
+    "glob": "^7.2.0",
     "ldbutton": "^2.0.0",
     "ldcover": "^3.0.1",
     "ldloader": "^3.0.0",

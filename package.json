@@ -21,7 +21,8 @@
     "npm": ">=6.4.1"
   },
   "scripts": {
-    "start": "npx server -r web -o true"
+    "start": "npx server -r web -o true",
+    "publish": "npx fedep publish -d true"
   },
   "bin": {
     "xfl": "./bin/build.js",

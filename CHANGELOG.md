@@ -3,6 +3,7 @@
 ## v2.0.2
 
  - fix bug: default value for input dir and `output` directory should be `font` and `output`.
+ - remove `dist` folder since it's flatten in root dir
 
 
 ## v2.0.1

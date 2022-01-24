@@ -19,7 +19,7 @@ This is a javascript project based on nodeJS / npm. After installing node / npm,
 
 use `npx xfl` to subset fonts with `xfl`:
 
-    npx xfl font-dir [-f word-frequency-csv] [-o output-dir] [-c major-subset-size] [-s subset-size]
+    npx xfl font-dir [o output-dir] [-f word-frequency-csv] [-c major-subset-size] [-s subset-size]
 
 
 where:

@@ -1,5 +1,10 @@
 # Change Logs
 
+## v2.0.2
+
+ - fix bug: default value for input dir and `output` directory should be `font` and `output`.
+
+
 ## v2.0.1
 
  - publish module with files under `dist` in root too.

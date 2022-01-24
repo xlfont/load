@@ -4,7 +4,7 @@ argv = yargs
   .usage "usage: npx xfl font-dir [-o output-dir] [-c major-subset-size] [-s subset-size]"
   .option \output, do
     alias: \o
-    description: "output directory. default `./output/`"
+    description: "output directory. default `output`"
     type: \string
   .option \major-subset-size, do
     alias: \c
@@ -29,8 +29,8 @@ libdir = path.dirname fs.realpathSync __filename
 common-ranges = [[0,0xff], [0xff00, 0xffef]]
 common-size = argv.c or 1500 # size of the predefined common subset of font
 set-size = argv.s or 100 # size of subset font
-font-dir = argv._.0 or "../fonts"
-out-dir = argv.o or "../output"
+font-dir = argv._.0 or "fonts"
+out-dir = argv.o or "output"
 default-frequency-file = path.join(libdir, '..', 'tool', 'data', 'word-frequency.csv')
 
 if !fs.exists-sync font-dir =>

@@ -13,7 +13,7 @@
   ttf2woff = require('ttf2woff');
   argv = yargs.usage("usage: npx xfl font-dir [-o output-dir] [-c major-subset-size] [-s subset-size]").option('output', {
     alias: 'o',
-    description: "output directory. default `./output/`",
+    description: "output directory. default `output`",
     type: 'string'
   }).option('major-subset-size', {
     alias: 'c',
@@ -37,8 +37,8 @@
   commonRanges = [[0, 0xff], [0xff00, 0xffef]];
   commonSize = argv.c || 1500;
   setSize = argv.s || 100;
-  fontDir = argv._[0] || "../fonts";
-  outDir = argv.o || "../output";
+  fontDir = argv._[0] || "fonts";
+  outDir = argv.o || "output";
   defaultFrequencyFile = path.join(libdir, '..', 'tool', 'data', 'word-frequency.csv');
   if (!fs.existsSync(fontDir)) {
     console.log(fontDir + " directory not found.");

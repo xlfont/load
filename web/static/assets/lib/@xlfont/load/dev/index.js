@@ -1,4 +1,4 @@
-(function() { var xlfWorkerCode = 'var local={},onmessage=function(e){var e=e.data||{},n=e.bufs,p=e.key,e=e.lib;return local.inited||(console.log(e),importScripts(e||"opentype.js"),local.inited=!0),Promise.resolve().then(function(){return n.map(function(e){return opentype.parse(e)})}).then(function(e){for(var n,t,r,s,o,a=[],l=0,i=e.length;l<i;++l)for(t=0,r=(n=e[l]).glyphs.length;t<r;++t)s=t,a.push(n.glyphs.glyphs[s]);return n=e[0],o=new opentype.Font(((o={glyphs:a,familyName:n.names.fontFamily.en,styleName:n.names.fontSubfamily.en}).unitsPerEm=n.unitsPerEm,o.ascender=n.ascender,o.descender=n.descender,o)),postMessage({buf:o.toArrayBuffer(),key:p})})};'; var err, xlfWorker, xlfMerger, xlfont, xfl;
+(function() { var xlfWorkerCode = 'var local={},onmessage=function(e){var e=e.data||{},n=e.bufs,p=e.key,e=e.lib;return local.inited||(importScripts(e||"opentype.js"),local.inited=!0),Promise.resolve().then(function(){return n.map(function(e){return opentype.parse(e)})}).then(function(e){for(var n,t,r,s,a,o=[],l=0,i=e.length;l<i;++l)for(t=0,r=(n=e[l]).glyphs.length;t<r;++t)s=t,o.push(n.glyphs.glyphs[s]);return n=e[0],a=new opentype.Font(((a={glyphs:o,familyName:n.names.fontFamily.en,styleName:n.names.fontSubfamily.en}).unitsPerEm=n.unitsPerEm,a.ascender=n.ascender,a.descender=n.descender,a)),postMessage({buf:a.toArrayBuffer(),key:p})})};'; var err, xlfWorker, xlfMerger, xlfont, xfl;
 err = function(e){
   e == null && (e = {});
   return import$(new Error(), import$({
@@ -45,7 +45,6 @@ xlfWorker = {
           rej: rej,
           key: this$.key++
         });
-        console.log(">", opt);
         return this$.worker.postMessage({
           bufs: abs,
           key: item.key,

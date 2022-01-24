@@ -4,7 +4,6 @@ onmessage = function(e){
   var ref$, bufs, key, lib;
   ref$ = e.data || {}, bufs = ref$.bufs, key = ref$.key, lib = ref$.lib;
   if (!local.inited) {
-    console.log(lib);
     importScripts(lib || "opentype.js");
     local.inited = true;
   }

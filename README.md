@@ -73,6 +73,14 @@ Sync font based on given text:
         font.sync("含有這些字的字型子集會被載入。Subset containgin glyphs from these chars will be loaded.");
     });
 
+Use `font.className` for font related CSS rules:
+
+    xfl
+      .load( ... )
+      .then(function(font) { 
+        font.sync( ... ).then(function() { document.body.classList.add(font.className); });
+      })
+
 
 ## xfl API
 
@@ -107,6 +115,7 @@ Besides loading from `xfl.load`, you can also manually construct a `xlfont` obje
 
  - `init()`: init this font object. `xfl.load` will do this job for you.
  - `sync(text)`: load fonts based on given text.
+   - return a Promise. this will also call `update`
  - `getotf()`: return a promise, resolved to `opentype.Font` from `opentype.js`.
    - `opentype.js` is required for this method
    - `fetchAll()` will be called by this method.

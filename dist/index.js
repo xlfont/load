@@ -87,7 +87,7 @@ xlfMerger = function(arg$){
   });
 };
 xlfont = function(opt){
-  var that, this$ = this;
+  var this$ = this;
   opt == null && (opt = {});
   this.opt = opt;
   this.sub = {
@@ -105,12 +105,7 @@ xlfont = function(opt){
   this.style = opt.style || 'normal';
   this.weight = opt.weight || '400';
   this.ext = opt.ext || (/\.(ttf|otf|woff2|woff)$/.exec(this.path) || [])[1] || '';
-  this.format = (that = this.ext.toLowerCase()) ? that === 'ttf'
-    ? 'truetype'
-    : that === 'otf' ? 'truetype' : that : '';
-  if (this.format) {
-    this.format = "format('" + this.format + "')";
-  }
+  this.format = this._format(this.ext);
   this.className = "xfl-" + (this.name || '').replace(/\s+/g, '_') + "-" + Math.random().toString(36).substring(2);
   this.isXl = opt.isXl != null
     ? opt.isXl
@@ -129,6 +124,14 @@ xlfont = function(opt){
   return this;
 };
 xlfont.prototype = import$(Object.create(Object.prototype), {
+  _format: function(f){
+    f == null && (f = '');
+    f = f.toLowerCase();
+    f = f === 'ttf'
+      ? 'truetype'
+      : f === 'otf' ? 'truetype' : f;
+    return "format('" + f + "')";
+  },
   _init: function(){
     var this$ = this;
     return Promise.resolve().then(function(){
@@ -317,18 +320,17 @@ xlfont.prototype = import$(Object.create(Object.prototype), {
         }).concat([font]);
       });
     }).then(function(subfonts){
-      var css, k, ref$, f, i$, len$;
+      var css, i$, len$, f, format;
       if (!subfonts.length) {
         return;
       }
-      css = "." + this$.className + " { font-family: \"" + this$.name + "\"; }";
-      for (k in ref$ = this$.sub.font) {
-        f = ref$[k];
-      }
+      css = "";
       for (i$ = 0, len$ = subfonts.length; i$ < len$; ++i$) {
         f = subfonts[i$];
-        css += "@font-face {\n  font-family: \"" + this$.name + "\";\n  src: url(\"" + f.url + "\") format('" + f.type + "');\n  font-style: " + this$.style + ";\n  font-weight: " + this$.weight + ";\n}";
+        format = this$._format(f.type);
+        css += "@font-face {\n  font-family: \"" + this$.name + "\";\n  src: url(\"" + f.url + "\") " + format + ";\n  font-style: " + this$.style + ";\n  font-weight: " + this$.weight + ";\n}";
       }
+      css += "." + this$.className + " { font-family: \"" + this$.name + "\"; }";
       return this$.css.push({
         content: css
       });
@@ -474,6 +476,7 @@ xlfont.prototype = import$(Object.create(Object.prototype), {
   }
 });
 xfl = {
+  xlfont: xlfont,
   range: {
     CJK: [[0x3040, 0x30ff], [0x3400, 0x4dbf], [0x4e00, 0x9fff], [0xf900, 0xfaff], [0xff66, 0xff9f], [0x3131, 0xD79D]]
   },

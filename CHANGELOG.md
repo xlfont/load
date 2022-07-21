@@ -1,5 +1,11 @@
 # Change Logs
 
+## v2.1.0
+
+ - fix bug: format of css generation in fetch is not correct
+ - export xlfont class
+
+
 ## v2.0.2
 
  - fix bug: default value for input dir and `output` directory should be `font` and `output`.

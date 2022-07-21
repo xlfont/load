@@ -3,7 +3,7 @@
   "name": "@xlfont/load",
   "license": "MIT",
   "description": "XL font generator and loader",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "browser": "dist/index.min.js",
   "main": "dist/index.min.js",
   "homepage": "https://github.com/xlfont/load",

@@ -58,12 +58,7 @@ xlfont = (opt = {}) ->
   @style = opt.style or \normal
   @weight = opt.weight or \400
   @ext = (opt.ext or (/\.(ttf|otf|woff2|woff)$/.exec(@path) or []).1 or '')
-  @format = if @ext.toLowerCase! =>
-    if that == 'ttf' => 'truetype'
-    else if that == 'otf' => 'truetype'
-    else that
-  else ''
-  if @format => @format = "format('#{@format}')"
+  @format = @_format @ext
   @className = "xfl-#{(@name or '').replace(/\s+/g,'_')}-#{Math.random!toString(36)substring(2)}"
   @is-xl = if opt.is-xl? => opt.is-xl else !@ext
   if !@ext => @ext = \woff
@@ -76,6 +71,12 @@ xlfont = (opt = {}) ->
   @
 
 xlfont.prototype = Object.create(Object.prototype) <<< do
+  _format: (f = '') ->
+    f = f.toLowerCase!
+    f = if f == 'ttf' => 'truetype'
+    else if f == 'otf' => 'truetype'
+    else f
+    "format('#{f}')"
   _init: ->
     Promise.resolve!then ~>
       # not xlfont but regular font. load directly.
@@ -174,15 +175,16 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
 
       .then (subfonts) ~>
         if !subfonts.length => return
-        css = """.#{@className} { font-family: "#{@name}"; }"""
-        for k,f of @sub.font =>
+        css = ""
         for f in subfonts =>
+          format = @_format(f.type)
           css += """@font-face {
             font-family: "#{@name}";
-            src: url("#{f.url}") format('#{f.type}');
+            src: url("#{f.url}") #format;
             font-style: #{@style};
             font-weight: #{@weight};
           }"""
+        css += """.#{@className} { font-family: "#{@name}"; }"""
         @css.push {content: css}
 
   has-char: (c) -> return if typeof(@misschar[c]) == \undefined => undefined else !@misshcar[c]
@@ -247,6 +249,7 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
       .then -> xfl.update!
 
 xfl = do
+  xlfont: xlfont
   range:
     CJK: [
       [0x3040 0x30ff], [0x3400 0x4dbf], [0x4e00 0x9fff],

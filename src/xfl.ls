@@ -125,7 +125,10 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
         else xhr.open \GET, @path
         xhr.responseType = \blob
         xhr.send!
-      p.finally -> f.running = false
+      p
+        .finally -> f.running = false
+        .then -> f.proxy.resolve f
+        .then -> f
     f.proxy f
 
   fetch-all: ->

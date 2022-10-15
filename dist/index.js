@@ -226,6 +226,10 @@ xlfont.prototype = import$(Object.create(Object.prototype), {
         });
         return p['finally'](function(){
           return f.running = false;
+        }).then(function(){
+          return f.proxy.resolve(f);
+        }).then(function(){
+          return f;
         });
       });
     }

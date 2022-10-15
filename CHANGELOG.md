@@ -1,5 +1,10 @@
 # Change Logs
 
+## v2.1.2
+
+ - fix bug: `_fetch` should resolve proxise function `proxy`, otherwise proxised caller will wait indefinitely
+
+
 ## v2.1.1
 
  - fix bug: `opentype.load` in  `getotf` should be proxisized, otherwise flood of requests will be made

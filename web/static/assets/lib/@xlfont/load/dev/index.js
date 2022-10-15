@@ -392,12 +392,23 @@ xlfont.prototype = import$(Object.create(Object.prototype), {
       }.call(this$)).map(function(f){
         if (f.otf) {
           return Promise.resolve(f);
-        } else {
-          return opentype.load(f.url).then(function(it){
-            f.otf = it;
-            return f;
+        }
+        if (Array.isArray(f._ps)) {
+          return new Promise(function(res, rej){
+            return f._ps.push({
+              res: res,
+              rej: rej
+            });
           });
         }
+        f._ps = [];
+        return opentype.load(f.url).then(function(it){
+          f.otf = it;
+          f._ps.map(function(it){
+            return it.res(f);
+          });
+          return f;
+        });
       });
       return Promise.all(ps);
     }).then(function(list){

@@ -1,5 +1,10 @@
 # Change Logs
 
+## v2.1.1
+
+ - fix bug: `opentype.load` in  `getotf` should be proxisized, otherwise flood of requests will be made
+
+
 ## v2.1.0
 
  - fix bug: format of css generation in fetch is not correct

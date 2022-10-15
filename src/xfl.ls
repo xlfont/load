@@ -206,8 +206,13 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
       .then ~> if !@is-xl => return @fetch! else @fetch-all!
       .then ~>
         ps = [f for k,f of @sub.font] .map (f) ->
-          if f.otf => Promise.resolve(f)
-          else opentype.load f.url .then -> f.otf = it; f
+          if f.otf => return Promise.resolve(f)
+          if Array.isArray(f._ps) => return new Promise (res, rej) -> f._ps.push {res, rej}
+          f._ps = []
+          return opentype.load f.url .then ->
+            f.otf = it
+            f._ps.map -> it.res f
+            f
         Promise.all ps
       .then (list = []) ~>
         if list.length == 1 => return list.0.otf

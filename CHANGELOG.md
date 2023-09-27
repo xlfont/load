@@ -1,5 +1,10 @@
 # Change Logs
 
+## v2.1.3
+
+ - remove the 350ms delay at the end of `xfl.update`
+
+
 ## v2.1.2
 
  - fix bug: `_fetch` should resolve proxise function `proxy`, otherwise proxised caller will wait indefinitely

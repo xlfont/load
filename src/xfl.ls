@@ -282,7 +282,11 @@ xfl = do
       node.setAttribute \type, 'text/css'
       document.body.appendChild node
     Promise.all([f for k,f of @fonts].map -> document.fonts.load "16px #{v.name}")
-      .then -> new Promise (res, rej) -> setTimeout (->res!), 350
+      .then ->
+        # we used to have a 350ms timeout for unknown reason, such as:
+        #   new Promise (res, rej) -> setTimeout (->res!), 350
+        # this leads to delay and thus reduced user experience, so we remove it for now.
+        # TODO when we find out why, we should document it and consider adding it back.
 
   # load font from path. will resolve information from path,
   # if failed to resolve, user can still supply options for alternative information.

@@ -525,13 +525,7 @@ xfl = {
       return results$;
     }.call(this)).map(function(){
       return document.fonts.load("16px " + v.name);
-    })).then(function(){
-      return new Promise(function(res, rej){
-        return setTimeout(function(){
-          return res();
-        }, 350);
-      });
-    });
+    })).then(function(){});
     function fn$(it){
       return !it.rendered;
     }

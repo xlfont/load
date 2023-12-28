@@ -130,6 +130,7 @@ Besides loading from `xfl.load`, you can also manually construct a `xlfont` obje
  - `fetchAll()`: by default `xfl` use CSS to load fonts. `fecthAll()` fetch all subset fonts with JS again.
  - `name`: font name which can be used in CSS `font-family` property.
  - `className`: a CSS class name which its `font-family` is assigned to this font.
+ - `ext`: a reserved member object for user program to extend xlfont. default `undefined`.
 
 
 ## availabel xlfonts

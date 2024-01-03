@@ -90,6 +90,7 @@ Use `font.className` for font related CSS rules:
      - an object passed directly to `xlfont` constructor.
    - return a promise resolving to a `xlfont` object.
  - `update()`: refresh necessary CSS in document to reflect font status changes.
+ - `track(font)`: track and manage fonts created manually instead of from `load`.
 
 
 ## xlfont Constructor

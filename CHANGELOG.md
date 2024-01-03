@@ -1,5 +1,14 @@
 # Change Logs
 
+## v2.1.4
+
+ - add `cssName` for font name used in CSS, to prevent bad font name from causing program to crash
+ - deduct extension by path also name
+ - use `cssName` for className generation
+ - use `opentype` for `otf` extension
+ - add `track` api for managing fonts constructed outside of xlfont.
+
+
 ## v2.1.3
 
  - remove the 350ms delay at the end of `xfl.update`

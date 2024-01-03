@@ -49,17 +49,25 @@ xlfont = (opt = {}) ->
     font: null   # opentype.js font object
     dirty: true  # true if we need to re-generate
   @path = opt.path
-  @name = opt.name or (@path
-    .replace(/\.[a-zA-Z0-9]+$/,'')
-    .replace(/^https?:\/\/[^/]+\//g,'')
-    .replace(/\s/g, '-')
-    .replace(/\//g,'-')
-  ).toLowerCase!
+  @name = if opt.name => opt.name
+  else
+    (@path
+      .replace(/.[a-zA-Z0-9]+$/g,'')
+      .replace(/^https?:\/\/[^/]+\//g,'')
+      .replace(/\s/g, '-')
+      .replace(/\//g,'-')
+    ).toLowerCase!
+  # use for css class
+  @css-name = Array.from(@name or 'unnamed')
+    .map -> if /[a-zA-Z0-9 ]/.exec(it) => it else it.charCodeAt(0).toString(36)
+    .join('')
   @style = opt.style or \normal
   @weight = opt.weight or \400
-  @ext = (opt.ext or (/\.(ttf|otf|woff2|woff)$/.exec(@path) or []).1 or '')
+  re = /\.(ttf|otf|woff2|woff)$/
+  @ext = opt.ext or if re.exec(@path) => that.1 else if re.exec(opt.name) => that.1 else ''
   @format = @_format @ext
-  @className = "xfl-#{(@name or '').replace(/\s+/g,'_')}-#{Math.random!toString(36)substring(2)}"
+  n = (@css-name or '').replace(/\s/g,'-')
+  @className = "xfl-#{n}-#{Math.random!toString(36)substring(2)}"
   @is-xl = if opt.is-xl? => opt.is-xl else !@ext
   if !@ext => @ext = \woff
   @do-merge = if opt.do-merge? => opt.do-merge else false
@@ -74,7 +82,7 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
   _format: (f = '') ->
     f = f.toLowerCase!
     f = if f == 'ttf' => 'truetype'
-    else if f == 'otf' => 'truetype'
+    else if f == 'otf' => 'opentype'
     else f
     "format('#{f}')"
   _init: ->
@@ -83,12 +91,12 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
       if !@is-xl =>
         @css = [{content: """
         @font-face {
-          font-family: "#{@name}";
+          font-family: "#{@css-name}";
           src: url("#{@path}") #{@format};
           font-style: #{@style};
           font-weight: #{@weight};
         }
-        .#{@className} { font-family: "#{@name}"; }"""}]
+        .#{@className} { font-family: "#{@css-name}"; }"""}]
         xfl.update!
       else return new Promise (res, rej) ~>
         xhr = new XMLHttpRequest!
@@ -182,12 +190,12 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
         for f in subfonts =>
           format = @_format(f.type)
           css += """@font-face {
-            font-family: "#{@name}";
+            font-family: "#{@css-name}";
             src: url("#{f.url}") #format;
             font-style: #{@style};
             font-weight: #{@weight};
           }"""
-        css += """.#{@className} { font-family: "#{@name}"; }"""
+        css += """.#{@className} { font-family: "#{@css-name}"; }"""
         @css.push {content: css}
 
   has-char: (c) -> return if typeof(@misschar[c]) == \undefined => undefined else !@misshcar[c]
@@ -226,7 +234,7 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
           .reduce(((a,b) -> a ++ b), [])
           .filter -> it
         @otf.font = new opentype.Font({
-          familyName: @name
+          familyName: @css-name
           styleName: @style or 'normal'
           glyphs: glyphs
         } <<< list.0.otf{unitsPerEm, ascender, descender})
@@ -281,7 +289,7 @@ xfl = do
       node.textContent = css
       node.setAttribute \type, 'text/css'
       document.body.appendChild node
-    Promise.all([f for k,f of @fonts].map -> document.fonts.load "16px #{v.name}")
+    Promise.all([f for k,f of @fonts].map -> document.fonts.load "16px #{v.css-name}")
       .then ->
         # we used to have a 350ms timeout for unknown reason, such as:
         #   new Promise (res, rej) -> setTimeout (->res!), 350
@@ -316,6 +324,9 @@ xfl = do
     @proxy[path]({} <<< opt <<< {path})
       .then -> res it
       .catch -> rej it
+
+  # for fonts constructed externally
+  track: (font) -> @fonts[font.path or font.name] = font
 
 if module? => module.exports = xfl
 else if window? => window.xfl = xfl

@@ -87,7 +87,7 @@ xlfMerger = function(arg$){
   });
 };
 xlfont = function(opt){
-  var this$ = this;
+  var re, that, n, this$ = this;
   opt == null && (opt = {});
   this.opt = opt;
   this.sub = {
@@ -101,12 +101,25 @@ xlfont = function(opt){
     dirty: true
   };
   this.path = opt.path;
-  this.name = opt.name || this.path.replace(/\.[a-zA-Z0-9]+$/, '').replace(/^https?:\/\/[^/]+\//g, '').replace(/\s/g, '-').replace(/\//g, '-').toLowerCase();
+  this.name = opt.name
+    ? opt.name
+    : this.path.replace(/.[a-zA-Z0-9]+$/g, '').replace(/^https?:\/\/[^/]+\//g, '').replace(/\s/g, '-').replace(/\//g, '-').toLowerCase();
+  this.cssName = Array.from(this.name || 'unnamed').map(function(it){
+    if (/[a-zA-Z0-9 ]/.exec(it)) {
+      return it;
+    } else {
+      return it.charCodeAt(0).toString(36);
+    }
+  }).join('');
   this.style = opt.style || 'normal';
   this.weight = opt.weight || '400';
-  this.ext = opt.ext || (/\.(ttf|otf|woff2|woff)$/.exec(this.path) || [])[1] || '';
+  re = /\.(ttf|otf|woff2|woff)$/;
+  this.ext = opt.ext || ((that = re.exec(this.path))
+    ? that[1]
+    : (that = re.exec(opt.name)) ? that[1] : '');
   this.format = this._format(this.ext);
-  this.className = "xfl-" + (this.name || '').replace(/\s+/g, '_') + "-" + Math.random().toString(36).substring(2);
+  n = (this.cssName || '').replace(/\s/g, '-');
+  this.className = "xfl-" + n + "-" + Math.random().toString(36).substring(2);
   this.isXl = opt.isXl != null
     ? opt.isXl
     : !this.ext;
@@ -129,7 +142,7 @@ xlfont.prototype = import$(Object.create(Object.prototype), {
     f = f.toLowerCase();
     f = f === 'ttf'
       ? 'truetype'
-      : f === 'otf' ? 'truetype' : f;
+      : f === 'otf' ? 'opentype' : f;
     return "format('" + f + "')";
   },
   _init: function(){
@@ -137,7 +150,7 @@ xlfont.prototype = import$(Object.create(Object.prototype), {
     return Promise.resolve().then(function(){
       if (!this$.isXl) {
         this$.css = [{
-          content: "@font-face {\n  font-family: \"" + this$.name + "\";\n  src: url(\"" + this$.path + "\") " + this$.format + ";\n  font-style: " + this$.style + ";\n  font-weight: " + this$.weight + ";\n}\n." + this$.className + " { font-family: \"" + this$.name + "\"; }"
+          content: "@font-face {\n  font-family: \"" + this$.cssName + "\";\n  src: url(\"" + this$.path + "\") " + this$.format + ";\n  font-style: " + this$.style + ";\n  font-weight: " + this$.weight + ";\n}\n." + this$.className + " { font-family: \"" + this$.cssName + "\"; }"
         }];
         return xfl.update();
       } else {
@@ -332,9 +345,9 @@ xlfont.prototype = import$(Object.create(Object.prototype), {
       for (i$ = 0, len$ = subfonts.length; i$ < len$; ++i$) {
         f = subfonts[i$];
         format = this$._format(f.type);
-        css += "@font-face {\n  font-family: \"" + this$.name + "\";\n  src: url(\"" + f.url + "\") " + format + ";\n  font-style: " + this$.style + ";\n  font-weight: " + this$.weight + ";\n}";
+        css += "@font-face {\n  font-family: \"" + this$.cssName + "\";\n  src: url(\"" + f.url + "\") " + format + ";\n  font-style: " + this$.style + ";\n  font-weight: " + this$.weight + ";\n}";
       }
-      css += "." + this$.className + " { font-family: \"" + this$.name + "\"; }";
+      css += "." + this$.className + " { font-family: \"" + this$.cssName + "\"; }";
       return this$.css.push({
         content: css
       });
@@ -435,7 +448,7 @@ xlfont.prototype = import$(Object.create(Object.prototype), {
         return it;
       });
       this$.otf.font = new opentype.Font((ref1$ = {
-        familyName: this$.name,
+        familyName: this$.cssName,
         styleName: this$.style || 'normal',
         glyphs: glyphs
       }, ref1$.unitsPerEm = (ref$ = list[0].otf).unitsPerEm, ref1$.ascender = ref$.ascender, ref1$.descender = ref$.descender, ref1$));
@@ -524,7 +537,7 @@ xfl = {
       }
       return results$;
     }.call(this)).map(function(){
-      return document.fonts.load("16px " + v.name);
+      return document.fonts.load("16px " + v.cssName);
     })).then(function(){});
     function fn$(it){
       return !it.rendered;
@@ -586,6 +599,9 @@ xfl = {
         return rej(it);
       });
     });
+  },
+  track: function(font){
+    return this.fonts[font.path || font.name] = font;
   }
 };
 if (typeof module != 'undefined' && module !== null) {

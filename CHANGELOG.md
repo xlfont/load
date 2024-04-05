@@ -1,5 +1,11 @@
 # Change Logs
 
+## v2.1.5
+
+ - fix bug: getotf fails for xlfont without matching chars.
+   - reject with exception with Error 1028 to notify api caller as a quick workaround.
+
+
 ## v2.1.4
 
  - add `cssName` for font name used in CSS, to prevent bad font name from causing program to crash

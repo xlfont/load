@@ -211,7 +211,7 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
 
   getotf: ->
     if !(opentype?) =>
-      return Promise.reject err({id: 1022, message: "[@plotdb/xfl] need opentype.js to merge subfonts"})
+      return Promise.reject err({id: 1022, message: "[@xlfont/load] need opentype.js to merge subfonts"})
     if !@otf.dirty => return Promise.resolve(@otf.font)
     Promise.resolve!
       .then ~> if !@is-xl => return @fetch! else @fetch-all!
@@ -226,6 +226,11 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
             f
         Promise.all ps
       .then (list = []) ~>
+        if !list.length =>
+          console.warn "[@xlfont/load] getotf got empty font (possibly no xl subset for given chars.)"
+          # TODO we may want to return a fallback font, but this requires xlfont to have a fallback subset.
+          # and that requires a xlfont rebuilding. for now just throw error and let user handle it.
+          return Promise.reject err({id: 1028, message: "no available font or font subset"})
         if list.length == 1 => return list.0.otf
         glyphs = list
           .map (f) ->
@@ -259,7 +264,7 @@ xlfont.prototype = Object.create(Object.prototype) <<< do
           if set-idx and !@sub.set[set-idx] => @sub.set[set-idx] = missset[set-idx] = true
         misscodes = [k for k of misscodes].filter(->misscodes[it])
         if misscodes.length =>
-          console.log "[@plotdb/xfl] sync xl-font with following chars unsupported: #{misscodes.join('')}"
+          console.log "[@xlfont/load] sync xl-font with following chars unsupported: #{misscodes.join('')}"
         list = [k for k of missset]
         if list.length => @fetch list
       .then -> xfl.update!

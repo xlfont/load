@@ -385,7 +385,7 @@ xlfont.prototype = import$(Object.create(Object.prototype), {
     if (!(typeof opentype != 'undefined' && opentype !== null)) {
       return Promise.reject(err({
         id: 1022,
-        message: "[@plotdb/xfl] need opentype.js to merge subfonts"
+        message: "[@xlfont/load] need opentype.js to merge subfonts"
       }));
     }
     if (!this.otf.dirty) {
@@ -431,6 +431,13 @@ xlfont.prototype = import$(Object.create(Object.prototype), {
     }).then(function(list){
       var glyphs, ref$, ref1$;
       list == null && (list = []);
+      if (!list.length) {
+        console.warn("[@xlfont/load] getotf got empty font (possibly no xl subset for given chars.)");
+        return Promise.reject(err({
+          id: 1028,
+          message: "no available font or font subset"
+        }));
+      }
       if (list.length === 1) {
         return list[0].otf;
       }
@@ -488,7 +495,7 @@ xlfont.prototype = import$(Object.create(Object.prototype), {
         return misscodes[it];
       });
       if (misscodes.length) {
-        console.log("[@plotdb/xfl] sync xl-font with following chars unsupported: " + misscodes.join(''));
+        console.log("[@xlfont/load] sync xl-font with following chars unsupported: " + misscodes.join(''));
       }
       res$ = [];
       for (k in missset) {

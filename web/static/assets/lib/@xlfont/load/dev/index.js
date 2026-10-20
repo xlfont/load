@@ -133,7 +133,7 @@ xlfont = function(opt){
   this.init = proxise.once(function(){
     return this$._init();
   });
-  this.init();
+  this.init()['catch'](function(){});
   return this;
 };
 xlfont.prototype = import$(Object.create(Object.prototype), {
@@ -572,6 +572,7 @@ xfl = {
       this$.proxy[path].resolve(this$.fonts[path]);
       return this$.fonts[path];
     })['catch'](function(it){
+      delete this$.fonts[path];
       this$.proxy[path].reject(it);
       return Promise.reject(it);
     });

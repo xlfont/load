@@ -1,5 +1,11 @@
 # Change Logs
 
+## v2.1.6
+
+ - fix bug: unhandled rejection when font failed to load, due to uncaught `init` call in xlfont constructor.
+ - fix bug: failed font is kept in `xfl.fonts` and thus resolved directly in later `load` call with the same path.
+
+
 ## v2.1.5
 
  - fix bug: getotf fails for xlfont without matching chars.

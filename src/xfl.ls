@@ -75,7 +75,9 @@ xlfont = (opt = {}) ->
   @misschar = {}
   @css = []
   @init = proxise.once ~> @_init!
-  @init!
+  # errors are propagated to caller via subsequent `init` calls ( e.g., in `xfl._load` ).
+  # catch here to prevent unhandled rejection.
+  @init!catch ->
   @
 
 xlfont.prototype = Object.create(Object.prototype) <<< do
@@ -316,6 +318,8 @@ xfl = do
         @proxy[path].resolve @fonts[path]
         @fonts[path]
       .catch ~>
+        # remove failed font so it won't be resolved directly in later `load` call.
+        delete @fonts[path]
         @proxy[path].reject it
         Promise.reject it
 

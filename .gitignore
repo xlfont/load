@@ -5,3 +5,4 @@ node_modules
 secret.*
 web/static/assets/fonts
 xlfont
+/context/shared
